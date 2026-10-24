@@ -7,14 +7,14 @@ import { startRecording, type Recorder } from "@/lib/client/recorder";
 import { settingsStore, type Settings } from "@/lib/client/settings";
 import { CLIPS, clipUrl, FILLERS, type ClipName } from "@/lib/clips";
 import { answerToHistory } from "@/lib/history";
-import { toSpeech } from "@/lib/markup";
 import type { HistoryTurn } from "@/lib/protocol";
-import { segmentsOf, tileAudioUrl } from "@/lib/segments";
+import { segmentsOf, speechFor, tileAudioUrl } from "@/lib/segments";
 import { TILES, type Tile } from "@/lib/tiles";
 import { AnswerView, EMPTY_ANSWER, type AnswerState } from "./AnswerView";
 import { MasalaDabba } from "./MasalaDabba";
 import { Mascot, type Mood } from "./Mascot";
 import { MicButton, type Phase } from "./MicButton";
+import { RecipeBook } from "./RecipeBook";
 import { SettingsSheet } from "./SettingsSheet";
 
 type Problem = "no-speech" | "mic" | "network" | "busy" | "locked";
@@ -53,7 +53,7 @@ const keepTurns = (h: HistoryTurn[]) => h.slice(-6);
 export function SakhiApp() {
   const settings = useSyncExternalStore(settingsStore.subscribe, settingsStore.get, settingsStore.getServer);
   const [phase, setPhase] = useState<Phase>("idle");
-  const [screen, setScreen] = useState<"home" | "answer">("home");
+  const [screen, setScreen] = useState<"home" | "answer" | "book">("home");
   const [view, setView] = useState<AnswerState>(EMPTY_ANSWER);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [installPrompt, setInstallPrompt] = useState<InstallPrompt | null>(null);
@@ -94,6 +94,10 @@ export function SakhiApp() {
   useEffect(() => {
     document.documentElement.classList.toggle("big-text", settings.bigText);
   }, [settings.bigText]);
+
+  useEffect(() => {
+    player.current?.setPace(settings.pace);
+  }, [settings.pace]);
 
   /** Keep the screen on while she is following steps; let it sleep after 3 quiet minutes. */
   const keepAwake = useCallback(async () => {
@@ -152,6 +156,7 @@ export function SakhiApp() {
               break;
             case "segment":
               pieces++;
+              p.setRole(e.segment.index, e.segment.role);
               setView((v) => ({ ...v, segments: [...v.segments, e.segment] }));
               break;
             case "audio":
@@ -234,9 +239,10 @@ export function SakhiApp() {
     history.current = keepTurns([...history.current, { role: "user", text: tile.question }, answerToHistory(tile.answer)]);
     p.setCount(segments.length);
     for (const s of segments) {
+      p.setRole(s.index, s.role);
       // Ready-made audio for the default voice; other voices are spoken on demand.
       fetch(tileAudioUrl(settings.voice, tile.id, s.index))
-        .then((r) => (r.ok && r.headers.get("content-type")?.startsWith("audio") ? r.arrayBuffer() : speakText(toSpeech(s.markup), settings)))
+        .then((r) => (r.ok && r.headers.get("content-type")?.startsWith("audio") ? r.arrayBuffer() : speakText(speechFor(tile.answer, s), settings)))
         .then((data) => p.add(s.index, data))
         .catch(() => p.skip(s.index));
     }
@@ -272,7 +278,7 @@ export function SakhiApp() {
     if (!p) return;
     p.unlock();
     try {
-      p.playClip(await speakText("नमस्ते! मैं सखी हूँ। बताइए, आज क्या बनाना है?", { voice, pace: settings.pace }));
+      p.playClip(await speakText("नमस्ते! मैं सखी हूँ। बताइए, आज क्या बनाना है?", { voice, pace: settings.pace }), true);
     } catch {
       // no sound for the preview; nothing else to do
     }
@@ -324,7 +330,27 @@ export function SakhiApp() {
             <h2 className="mb-5 text-center text-[22px] font-bold">या यहाँ से चुनिए</h2>
             <MasalaDabba tiles={TILES} onPick={openTile} />
           </section>
+
+          <button
+            type="button"
+            onClick={() => setScreen("book")}
+            className="mt-10 flex items-center gap-4 rounded-3xl bg-white px-5 py-4 text-left shadow-[0_0_0_2px_var(--color-pista-line),0_6px_0_var(--color-pista-line)] active:translate-y-1 active:shadow-[0_0_0_2px_var(--color-pista-line)]"
+          >
+            <span aria-hidden className="grid size-16 shrink-0 place-items-center rounded-full bg-genda-soft text-[34px]">📖</span>
+            <span>
+              <span className="block text-[23px] font-extrabold leading-tight">रेसिपी किताब</span>
+              <span className="block text-[17px] leading-snug text-baingan-soft">331 चीज़ें, जो आपका माइक्रोवेव अपने-आप बनाता है</span>
+            </span>
+          </button>
         </main>
+      ) : screen === "book" ? (
+        <RecipeBook
+          onBack={() => setScreen("home")}
+          onAsk={(question) => {
+            player.current?.unlock();
+            submit({ text: question });
+          }}
+        />
       ) : (
         <main className="flex min-h-dvh flex-col">
           <header className="sticky top-0 z-10 flex items-center gap-2 bg-pista/95 px-3 py-2 backdrop-blur">

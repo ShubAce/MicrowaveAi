@@ -1,17 +1,22 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 
 export type Mood = "idle" | "listening" | "thinking" | "speaking" | "happy" | "oops";
 
 // सखी: her own microwave (black glass, the gold leaf art from the real door, a glowing LED face).
-export function Mascot({ mood, level, size = 220 }: {
+export function Mascot({ mood, level, size = 220, still = false }: {
   mood: Mood;
   /** Returns the current voice loudness 0..1; drives the mouth while speaking. */
   level?: () => number;
   size?: number;
+  /** No bobbing or blinking, for the small mascots inside step pictures. */
+  still?: boolean;
 }) {
   const mouth = useRef<SVGEllipseElement>(null);
+  // Unique per drawing: several mascots can be on the page at once.
+  const uid = useId().replace(/[^a-zA-Z0-9_-]/g, "");
+  const ids = { glass: `${uid}-glass`, window: `${uid}-window`, glow: `${uid}-glow` };
 
   useEffect(() => {
     if (mood !== "speaking" || !level) return;
@@ -43,15 +48,15 @@ export function Mascot({ mood, level, size = 220 }: {
       className="overflow-visible"
     >
       <defs>
-        <linearGradient id="m-glass" x1="0" y1="0" x2="0" y2="1">
+        <linearGradient id={ids.glass} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#2c2934" />
           <stop offset="1" stopColor="#121016" />
         </linearGradient>
-        <radialGradient id="m-window" cx="0.55" cy="0.4" r="0.8">
+        <radialGradient id={ids.window} cx="0.55" cy="0.4" r="0.8">
           <stop offset="0" stopColor="#25222d" />
           <stop offset="1" stopColor="#17151c" />
         </radialGradient>
-        <filter id="m-glow" x="-60%" y="-60%" width="220%" height="220%">
+        <filter id={ids.glow} x="-60%" y="-60%" width="220%" height="220%">
           <feGaussianBlur stdDeviation="2.6" result="b" />
           <feMerge>
             <feMergeNode in="b" />
@@ -60,7 +65,7 @@ export function Mascot({ mood, level, size = 220 }: {
         </filter>
       </defs>
 
-      <ellipse className="mascot-shadow" cx="110" cy="184" rx="72" ry="7" fill="#3a1f3d" opacity="0.16" />
+      <ellipse className={still ? undefined : "mascot-shadow"} cx="110" cy="184" rx="72" ry="7" fill="#3a1f3d" opacity="0.16" />
 
       {mood === "listening" && (
         <g className="mascot-wave" fill="none" stroke="#d6246e" strokeWidth="4" strokeLinecap="round">
@@ -71,7 +76,7 @@ export function Mascot({ mood, level, size = 220 }: {
         </g>
       )}
 
-      <g className="mascot-body">
+      <g className={still ? undefined : "mascot-body"}>
         {mood === "thinking" && (
           <g className="mascot-steam" fill="#ffffff" opacity="0.9">
             <circle cx="92" cy="14" r="6" />
@@ -85,11 +90,11 @@ export function Mascot({ mood, level, size = 220 }: {
         <rect x="150" y="160" width="28" height="14" rx="7" fill="#0f0e13" />
 
         {/* body and glass shine */}
-        <rect x="12" y="26" width="196" height="142" rx="32" fill="url(#m-glass)" />
+        <rect x="12" y="26" width="196" height="142" rx="32" fill={`url(#${ids.glass})`} />
         <rect x="24" y="32" width="172" height="22" rx="11" fill="#ffffff" opacity="0.06" />
 
         {/* door window */}
-        <rect x="26" y="42" width="128" height="112" rx="22" fill="url(#m-window)" />
+        <rect x="26" y="42" width="128" height="112" rx="22" fill={`url(#${ids.window})`} />
 
         {/* gold leaf line art, like the real door */}
         <g fill="none" stroke="#c8a25c" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round" opacity="0.9">
@@ -106,14 +111,14 @@ export function Mascot({ mood, level, size = 220 }: {
 
         {/* eyes */}
         {happyEyes ? (
-          <g filter="url(#m-glow)" fill="none" stroke="#b7b4ff" strokeWidth="4.5" strokeLinecap="round">
+          <g filter={`url(#${ids.glow})`} fill="none" stroke="#b7b4ff" strokeWidth="4.5" strokeLinecap="round">
             <path d="M83 90 Q91 79 99 90" />
             <path d="M119 90 Q127 79 135 90" />
           </g>
         ) : (
           <g className="mascot-eye" style={{ transform: look }}>
-            <g className={mood === "idle" || mood === "speaking" ? "mascot-blink" : undefined}>
-              <g filter="url(#m-glow)" fill="#b7b4ff">
+            <g className={!still && (mood === "idle" || mood === "speaking") ? "mascot-blink" : undefined}>
+              <g filter={`url(#${ids.glow})`} fill="#b7b4ff">
                 <rect x="83" y="74" width="16" height="23" rx="8" />
                 <rect x="119" y="74" width="16" height="23" rx="8" />
               </g>
@@ -126,7 +131,7 @@ export function Mascot({ mood, level, size = 220 }: {
         )}
 
         {/* mouth */}
-        <g filter="url(#m-glow)">
+        <g filter={`url(#${ids.glow})`}>
           {mood === "speaking" ? (
             <ellipse ref={mouth} cx="109" cy="117" rx="7" ry="3" fill="#b7b4ff" />
           ) : mood === "thinking" ? (
@@ -149,7 +154,7 @@ export function Mascot({ mood, level, size = 220 }: {
         {/* the control strip: mini display, buttons, gold-rimmed dial, STOP and START */}
         <rect x="163" y="46" width="34" height="18" rx="5" fill="#0b0a0e" />
         {mood === "thinking" ? (
-          <g className="mascot-dots" fill="#b7b4ff" filter="url(#m-glow)">
+          <g className="mascot-dots" fill="#b7b4ff" filter={`url(#${ids.glow})`}>
             <rect x="169" y="53" width="5" height="4" rx="1" />
             <rect x="177.5" y="53" width="5" height="4" rx="1" />
             <rect x="186" y="53" width="5" height="4" rx="1" />
@@ -158,7 +163,7 @@ export function Mascot({ mood, level, size = 220 }: {
           <path
             d="M180 60 C 170 53, 172 47, 176.5 48.5 C 178.5 49.2, 180 51, 180 51 C 180 51, 181.5 49.2, 183.5 48.5 C 188 47, 190 53, 180 60 Z"
             fill="#b7b4ff"
-            filter="url(#m-glow)"
+            filter={`url(#${ids.glow})`}
           />
         )}
         <g fill="#6c6977">

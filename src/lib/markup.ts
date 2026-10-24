@@ -4,6 +4,7 @@
 // Everything else is plain Hindi.
 
 import { BUTTONS, isButtonId, type ButtonId } from "./buttons";
+import type { AnswerKind, SegmentRole } from "./protocol";
 
 export type Piece =
   | { kind: "text"; text: string }
@@ -81,6 +82,27 @@ function speakDisplay(raw: string): string {
     return grams === 500 ? "आधा किलो" : grams === 1000 ? "एक किलो" : `${grams} ग्राम`;
   }
   return s.replace(/-/g, " ");
+}
+
+const ALREADY_LINKED = /^(सबसे पहले|पहले|फिर|अब|इसके बाद|उसके बाद|आख़िर में|आखिर में|अंत में|बीप|जब|अगर|और|लेकिन)/;
+/** A first clause that already says when ("बीच में…", "गरम होने के बाद…") clashes with a linking word. */
+const SAYS_WHEN = /(होने पर|के बाद|बीच में|आधे समय)/;
+const LINKS = ["फिर", "अब", "इसके बाद"];
+
+/** What the voice says for one piece of the answer. Steps of a how-to get linking words
+ *  ("सबसे पहले… फिर… आख़िर में…"), so the answer sounds like one person explaining it. */
+export function spokenPiece(role: SegmentRole, markup: string, { kind, step, isLast = false }: {
+  kind?: AnswerKind;
+  step?: number;
+  isLast?: boolean;
+} = {}): string {
+  let text = toSpeech(markup);
+  if (text && !/[।?!.]$/.test(text)) text += "।";
+  if (role === "warning") return `और हाँ, ${text}`;
+  if (role !== "step" || kind !== "steps" || !step) return text;
+  if (ALREADY_LINKED.test(text) || SAYS_WHEN.test(text.split(/[,।:]/)[0])) return text;
+  const link = step === 1 ? "सबसे पहले" : isLast && step >= 3 ? "आख़िर में" : LINKS[(step - 2) % LINKS.length];
+  return `${link}, ${text}`;
 }
 
 /** Text for the Hindi voice: buttons by their spoken names, no symbols the voice might read out. */

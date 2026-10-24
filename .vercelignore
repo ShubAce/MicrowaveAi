@@ -1,3 +1,6 @@
+# Keys go in as Vercel environment variables, never as an uploaded file.
+.env*
+
 # Not needed to build or run the app (the server uses kb/bundle.json).
 source-docs
 *.pdf

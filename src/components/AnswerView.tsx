@@ -4,7 +4,8 @@ import { motion } from "motion/react";
 import { useEffect } from "react";
 import { accessoryName } from "@/lib/markup";
 import type { Answer, Segment } from "@/lib/protocol";
-import { PanelDiagram, StepText } from "./PanelBits";
+import { StepText } from "./PanelBits";
+import { StepPicture } from "./StepPicture";
 
 export interface AnswerState {
   question: string | null;
@@ -77,15 +78,18 @@ export function AnswerView({ state, onReplay, onSuggestion }: {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25 }}
                 onClick={() => onReplay(s.index)}
-                className={`flex cursor-pointer gap-3 rounded-[20px] border-2 px-3 py-3 transition-colors ${on ? "border-genda bg-genda-soft" : "border-pista-line bg-white"}`}
+                className={`cursor-pointer rounded-[20px] border-2 px-3 py-3 transition-colors ${on ? "border-genda bg-genda-soft" : "border-pista-line bg-white"}`}
               >
-                <span className={`grid size-10 shrink-0 place-items-center rounded-full text-[21px] font-extrabold ${on ? "bg-genda text-baingan" : "bg-pista-deep text-baingan"}`}>
-                  {s.step}
-                </span>
-                <span className="flex-1 pt-0.5 text-[23px] font-medium leading-normal">
-                  <StepText markup={s.markup} />
-                </span>
-                {on && <SpeakingBars />}
+                <div className="flex gap-3">
+                  <span className={`grid size-10 shrink-0 place-items-center rounded-full text-[21px] font-extrabold ${on ? "bg-genda text-baingan" : "bg-pista-deep text-baingan"}`}>
+                    {s.step}
+                  </span>
+                  <span className="flex-1 pt-0.5 text-[23px] font-medium leading-normal">
+                    <StepText markup={s.markup} />
+                  </span>
+                  {on && <SpeakingBars />}
+                </div>
+                <StepPicture markup={s.markup} active={on} />
               </motion.li>
             );
           })}
@@ -141,13 +145,6 @@ export function AnswerView({ state, onReplay, onSuggestion }: {
               </span>
             ))}
           </div>
-        </div>
-      )}
-
-      {answer && answer.steps.length > 0 && (
-        <div className="rounded-[26px] bg-white px-4 pb-5 pt-4 shadow-[0_0_0_2px_var(--color-pista-line)]">
-          <p className="mb-3 text-center text-[19px] font-bold">पैनल पर ये बटन, इसी क्रम में</p>
-          <PanelDiagram steps={answer.steps} display={answer.menu?.code} />
         </div>
       )}
 

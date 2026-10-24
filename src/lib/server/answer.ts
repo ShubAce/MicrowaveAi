@@ -3,7 +3,7 @@
 
 import { Allow, parse } from "partial-json";
 import { isButtonId } from "../buttons";
-import { toSpeech } from "../markup";
+import { spokenPiece } from "../markup";
 import type { Answer, AskEvent, AskSettings, HistoryTurn, Segment, SegmentRole } from "../protocol";
 import { streamWithFallback, type GeminiBody } from "./gemini";
 import { ANSWER_SCHEMA, FIELD_ORDER, SYSTEM_INSTRUCTION } from "./prompt";
@@ -70,13 +70,14 @@ export async function answerQuestion({ question, history, settings, emit, signal
   const sent = new Set<SegmentRole>();
   const speaking: Promise<void>[] = [];
 
-  const say = (role: SegmentRole, markup: string, step?: number) => {
+  let kind: Answer["kind"] | undefined;
+  const say = (role: SegmentRole, markup: string, step?: number, isLast = false) => {
     if (!markup.trim()) return;
     const segment: Segment = { index: index++, role, markup, ...(step ? { step } : {}) };
     emit({ type: "segment", segment });
     if (!withAudio) return;
     speaking.push(
-      speak(toSpeech(markup), settings.voice, settings.pace, signal)
+      speak(spokenPiece(role, markup, { kind, step, isLast }), settings.voice, settings.pace, signal)
         .then((b64) => emit({ type: "audio", index: segment.index, mime: "audio/mpeg", b64 }))
         .catch(() => emit({ type: "audio_error", index: segment.index })),
     );
@@ -92,6 +93,7 @@ export async function answerQuestion({ question, history, settings, emit, signal
     if (!obj || typeof obj !== "object") return;
     const passed = (field: (typeof FIELD_ORDER)[number]) =>
       final || FIELD_ORDER.slice(FIELD_ORDER.indexOf(field) + 1).some((f) => f in obj);
+    if (typeof obj.kind === "string" && passed("kind")) kind = obj.kind as Answer["kind"];
 
     if (!metaSent && typeof obj.title === "string" && passed("title")) {
       metaSent = true;
@@ -102,11 +104,12 @@ export async function answerQuestion({ question, history, settings, emit, signal
       say("intro", obj.intro);
     }
     if (sent.has("intro") && Array.isArray(obj.steps)) {
-      const done = passed("steps") ? obj.steps.length : obj.steps.length - 1;
+      const allIn = passed("steps"); // only then is the last step known to be the last
+      const done = allIn ? obj.steps.length : obj.steps.length - 1;
       while (stepsSent < done) {
         const step = obj.steps[stepsSent];
         stepsSent++;
-        if (typeof step === "string") say("step", step, stepsSent);
+        if (typeof step === "string") say("step", step, stepsSent, allIn && stepsSent === obj.steps.length);
       }
     }
     // Both come after "steps" in the schema, so all steps have been said by the time they are complete.

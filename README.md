@@ -1,6 +1,10 @@
 # रसोई सखी (Rasoi Sakhi)
 
-A Hindi voice helper for one microwave: the **LG MJEN286UGWF** (28 L convertible, Air Fry, Charcoal, 331 auto-cook menus). Mom taps the big pink button, asks in Hindi, and सखी answers aloud with numbered steps. Each step shows the real panel buttons, what the display will show, and which accessory goes inside. Every answer comes from LG's owner's manual.
+A Hindi voice helper for one microwave: the **LG MJEN286UGWF** (28 L convertible, Air Fry, Charcoal, 331 auto-cook menus). Mom taps the big pink button, asks in Hindi, and सखी answers aloud with numbered steps. Every answer comes from LG's owner's manual.
+
+- **Spoken like a person explaining:** each piece is trimmed, faded and evened out in loudness, then played on the audio clock with a calm pause after it (about 0.9 s after each step, longer at the slow speed). The voice links the steps with "सबसे पहले… फिर… आख़िर में…".
+- **A picture for every step:** a close-up of her panel with the button to press ringed and tapped (once, again and again, held for 3 seconds, or the dial turning), what the display will show, the oven with the right accessory inside, or सखी saying "बीप!" with what to do next. Only the step being spoken moves.
+- **Recipe book:** all 331 built-in dishes in Hindi, grouped like the panel buttons; tapping one asks सखी how to make it.
 
 ```
 Phone: record → stops by itself after she stops talking
@@ -78,8 +82,9 @@ The manual prints menu codes in an LCD font, so the text has letters where digit
 
 ## Where things are
 
-- `src/components/SakhiApp.tsx`: the screens and the voice loop. `Mascot.tsx` is सखी. `PanelBits.tsx` has the button chips, LED badges and panel diagram. `MasalaDabba.tsx` has the quick questions.
-- `src/lib/client/`: recorder (with silence detection), player and the streaming client.
+- `src/components/SakhiApp.tsx`: the screens and the voice loop. `Mascot.tsx` is सखी. `PanelBits.tsx` has the button chips and LED badges. `StepPicture.tsx` draws each step's picture, chosen by `src/lib/steps.ts`. `MasalaDabba.tsx` has the quick questions; `RecipeBook.tsx` the recipe book (data: `public/recipe-book.json`, made by `npm run kb`).
+- `src/lib/client/`: recorder (with silence detection), player (trimming, loudness, pauses between pieces) and the streaming client.
+- `src/lib/markup.ts` (`spokenPiece`): what the voice says for each piece, with the linking words.
 - `src/lib/server/`: `answer.ts` (the pipeline), `gemini.ts` (streaming with model fallback), `sarvam.ts`, `retrieve.ts` (recipe matching), `prompt.ts` (सखी's instructions and answer format).
 - `src/lib/markup.ts`: answers write buttons as `[STOP]` and display text as `{5-3}`. The screen draws them like the real panel and the voice says them in Hindi.
 - `src/proxy.ts`: the family-only lock.

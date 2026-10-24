@@ -30,11 +30,31 @@ PDF_MANUAL = ROOT / "source-docs/lg-official/MFL72046002_Owners_Manual_MJEN286UG
 PDF_LEAFLET = ROOT / "source-docs/lg-official/User_Guide_MJEN286UGWF.pdf"
 EXTRA_MD = ROOT / "kb/extra.md"
 NAMES_HI = ROOT / "kb/recipe_names_hi.json"
+EXTRAS = ROOT / "kb/recipe_extras.json"  # verified extra facts from LG's cook books, keyed "Category|code"
 OUT_MD = ROOT / "kb/manual.md"
 OUT_CORE = ROOT / "kb/core.md"
 OUT_CATALOG = ROOT / "kb/catalog.md"
 OUT_RECIPES = ROOT / "kb/recipes.json"
 OUT_BUNDLE = ROOT / "kb/bundle.json"  # what the server imports: core + catalog + recipes
+OUT_BOOK = ROOT / "public/recipe-book.json"  # the in-app recipe book: Hindi names and codes only
+
+# Hindi names for the recipe groups, as shown in the recipe book.
+GROUP_HI = {
+    "Charcoal": "चारकोल (तंदूरी)",
+    "Indian Cuisine": "भारतीय खाना",
+    "Rice Delight": "चावल-पुलाव-बिरयानी",
+    "Chatpat Corner": "चटनी, अचार, चाट",
+    "Cooking Aid": "रसोई के काम",
+    "Healthy Heart": "दिल के लिए सेहतमंद",
+    "Indian Roti Basket": "रोटी, नान, पराठे",
+    "Ghee": "घी और मिठास",
+    "Air Fry": "एयर फ्राई",
+    "Low Calorie": "कम कैलोरी",
+    "Child's Favourite": "बच्चों की पसंद",
+    "Bakery": "केक, बिस्किट, बेकरी",
+    "Dairy Delight": "दही-पनीर",
+    "Pasteurized Milk": "दूध पाश्चराइज़ (अलग किट से)",
+}
 
 # The manual sets menu codes in an LCD display font whose glyphs are letters.
 LCD_MAP = {"z": "2", "s": "5", "O": "0", "G": "9", "Q": "9", "b": "6"}
@@ -441,6 +461,29 @@ def attach_hindi_names(recipes: list[dict]) -> None:
         raise SystemExit(f"no Hindi name for {len(missing)} menus: {missing[:10]}")
 
 
+def attach_extras(recipes: list[dict]) -> int:
+    """Add verified facts from LG's cook books (preparation and cooking time) to the recipe write-ups."""
+    if not EXTRAS.exists():
+        return 0
+    extras = json.loads(EXTRAS.read_text(encoding="utf-8"))
+    added = 0
+    for r in recipes:
+        e = extras.get(f"{r['category']}|{r['code']}")
+        if not e:
+            continue
+        lines = [f"- **{label}** ({e.get('source', 'LG cook book')}): {e[key]}"
+                 for key, label in (("prepTime", "Preparation time"), ("cookingTime", "Cooking time")) if e.get(key)]
+        lines += [f"- {note}" for note in e.get("notes", [])]
+        if not lines:
+            continue
+        head, _, rest = r["md"].partition("\n")
+        select, _, body = rest.partition("\n")  # keep "#### code name" and "Select: ..." first
+        r["md"] = "\n".join([head, select, *lines, body]).rstrip()
+        r.update({k: e[k] for k in ("prepTime", "cookingTime") if e.get(k)})
+        added += 1
+    return added
+
+
 def split_core(md: str, recipes: list[dict]) -> str:
     """Move each recipe write-up into recipes[i]['md']; return the rest (minus warranty fine print)."""
     lines = md.splitlines()
@@ -495,8 +538,21 @@ def catalog(recipes: list[dict]) -> str:
             button, no = AUTO_COOK[current]
             group = f"group {no}: {current}" if no else f"{current} (no group number; codes 1-30)"
             out += ["", f"## {button} → {group}"]
-        out.append(f"- {r['code']} {r['name']} ({r['hi']}) | {r.get('weight') or '-'} | {r.get('utensil') or '-'}")
+        cook = f" | cooks in {r['cookingTime']}" if r.get("cookingTime") else ""
+        out.append(f"- {r['code']} {r['name']} ({r['hi']}) | {r.get('weight') or '-'} | {r.get('utensil') or '-'}{cook}")
     return "\n".join(out) + "\n"
+
+
+def recipe_book(recipes: list[dict]) -> list[dict]:
+    """Groups in panel order, each with its button, group number and dishes (Hindi name + code)."""
+    groups: list[dict] = []
+    for r in recipes:
+        if not groups or groups[-1]["category"] != r["category"]:
+            button, no = AUTO_COOK[r["category"]]
+            groups.append({"category": r["category"], "title": GROUP_HI[r["category"]], "button": button,
+                           "groupNo": no, "items": []})
+        groups[-1]["items"].append({"code": r["code"], "hi": r["hi"], "en": r["name"]})
+    return groups
 
 
 def main() -> None:
@@ -542,6 +598,7 @@ def main() -> None:
 
     attach_hindi_names(recipes)
     core = split_core(md, recipes)
+    extras = attach_extras(recipes)  # after the split: it edits each recipe's own write-up
     cat = catalog(recipes)
 
     OUT_MD.parent.mkdir(parents=True, exist_ok=True)
@@ -551,9 +608,10 @@ def main() -> None:
     OUT_RECIPES.write_text(json.dumps(recipes, ensure_ascii=False, indent=1), encoding="utf-8")
     OUT_BUNDLE.write_text(json.dumps({"core": core, "catalog": cat, "recipes": recipes}, ensure_ascii=False),
                           encoding="utf-8")
+    OUT_BOOK.write_text(json.dumps(recipe_book(recipes), ensure_ascii=False), encoding="utf-8")
     for path, text in ((OUT_MD, md), (OUT_CORE, core), (OUT_CATALOG, cat)):
         print(f"wrote {path.relative_to(ROOT)}: {len(text):,} chars")
-    print(f"wrote {OUT_RECIPES.relative_to(ROOT)}: {len(recipes)} recipes (matches door label)")
+    print(f"wrote {OUT_RECIPES.relative_to(ROOT)}: {len(recipes)} recipes (matches door label), {extras} with cook-book extras")
     if missing_pages:
         print(f"warning: no page number for {len(missing_pages)} recipes: {missing_pages[:8]}", file=sys.stderr)
 

@@ -6,8 +6,7 @@
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { CLIPS, type ClipName } from "../src/lib/clips";
-import { toSpeech } from "../src/lib/markup";
-import { segmentsOf } from "../src/lib/segments";
+import { segmentsOf, speechFor } from "../src/lib/segments";
 import { speak } from "../src/lib/server/sarvam";
 import { TILES } from "../src/lib/tiles";
 import { DEFAULT_PACE, DEFAULT_VOICE, VOICES } from "../src/lib/voices";
@@ -22,7 +21,7 @@ for (const { id: voice } of VOICES) {
 }
 for (const tile of TILES) {
   for (const s of segmentsOf(tile.answer)) {
-    jobs.push({ file: `public/tiles/${DEFAULT_VOICE}/${tile.id}-${s.index}.mp3`, text: toSpeech(s.markup), voice: DEFAULT_VOICE });
+    jobs.push({ file: `public/tiles/${DEFAULT_VOICE}/${tile.id}-${s.index}.mp3`, text: speechFor(tile.answer, s), voice: DEFAULT_VOICE });
   }
 }
 
