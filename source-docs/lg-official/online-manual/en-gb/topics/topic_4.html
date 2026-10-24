@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="IMPORTANT SAFETY INSTRUCTIONS"><meta id="Section_Title" name="Section_Title" content="WARNING"><meta id="Topic_Title" name="Topic_Title" content="Operation"><meta id="Topic_ID" name="Topic_ID" content="t_00006195_r2_20191101110500_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#preface_1">IMPORTANT SAFETY INSTRUCTIONS</a> &gt; <a class="bread-clumb-item" href="#section_2">WARNING</a> &gt; Operation</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Operation</h2><ul class="itemizedlist"><li><p class="p">Children should not allow to play with accessories or hang down from the door or any part of the appliance.</p></li><li><p class="p">When the appliance is operated in the combination mode, children should only use the appliance under adult supervision due to the temperatures generated.</p></li><li><p class="p">Never operate the appliance when it is empty. Food or water should always be in the appliance during operation to absorb the microwave energy.</p></li><li><p class="p">Do not operate your appliance if it is damaged. It is particularly important that the oven door closes properly and that there is no damage to the: (1) door (bent), (2) hinges and latches (broken or loosened), (3) door seals and sealing surfaces. It could result in harmful exposure to excessive microwave energy.</p></li><li><p class="p">Do not use the appliance for the purpose of dehumidification. (ex. Operating the microwave oven with wet newspapers, clothes, toys, electric devices, pet or child etc.) It can be the cause of serious damage to safety such as a fire, a burn or a sudden death due to an electric shock.</p></li><li><p class="p">Be certain to use proper accessories on each operation mode. Improper use could result in damage to your appliance and accessories, or could make spark and a fire.</p></li></ul></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_2"><span class="page-marker"></span></a><a href="#topic_3"><span class="page-marker"></span></a><a href="#topic_4"><span class="page-marker isCurrent"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

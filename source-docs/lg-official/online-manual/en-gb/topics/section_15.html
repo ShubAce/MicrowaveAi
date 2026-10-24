@@ -1,0 +1,33 @@
+<div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_3">SMART FUNCTIONS</a> &gt; Smart Diagnosis</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Smart Diagnosis</h2><div class="summary"><p class="p">Use this function if you need an accurate diagnosis by our customer information centre when the appliance malfunctions or fails.</p><div class="note"><div class="note-title"><span><i class="note-icon"></i>Note</span></div><div class="note-body"><ul class="itemizedlist"><li><p class="p">For reasons not attributable to LGE’s negligence, the service may not operate due to external factors such as, but not limited to, Wi-Fi unavailability, Wi-Fi disconnection, local app store policy, or app unavailability.</p></li><li><p class="p">The feature may be subject to change without prior notice and may have a different form depending on where you are located.</p></li></ul></div></div></div><div class="containd-topics"><dl><dt>Contains Topics</dt><dd><a href="#topic_53">Using LG ThinQ to Diagnose Issues</a></dd><dd><a href="#topic_54">Using Audible Diagnosis to Diagnose Issues</a></dd></dl></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

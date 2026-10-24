@@ -1,0 +1,33 @@
+<div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_1">INSTALLATION</a> &gt; Product Overview</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Product Overview</h2><div class="summary"><p class="p">The appearance or components of the appliance may differ from model to model.</p></div><div class="containd-topics"><dl><dt>Contains Topics</dt><dd><a href="#topic_9">Front View</a></dd><dd><a href="#topic_10">Accessories</a></dd><dd><a href="#topic_11">Specifications</a></dd></dl></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

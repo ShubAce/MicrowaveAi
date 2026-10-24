@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="OPERATION"><meta id="Section_Title" name="Section_Title" content="Quick Start"><meta id="Topic_Title" name="Topic_Title" content="Grill Cooking"><meta id="Topic_ID" name="Topic_ID" content="t_00079899_r4_20191127194655_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_2">OPERATION</a> &gt; <a class="bread-clumb-item" href="#section_9">Quick Start</a> &gt; Grill Cooking</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Grill Cooking</h2><p class="p">This feature allow you to brown and crisp food quickly without preheating.</p><ul class="procedure"><li><div class="step-contents"><p class="p">Press <span class="key">STOP/Cancel</span>.</p></div></li><li><div class="step-contents"><p class="p">Press <span class="key">Cook Mode</span> until <span class="emphasis bold">GrlL</span> appears in the display, and press <span class="key">START/Select</span>.</p></div></li><li><div class="step-contents"><p class="p">Select a desired time by using <span class="key">More/Less</span>, and press <span class="key">START/Select</span>.</p></div></li></ul><div class="caution"><div class="caution-title"><span><i class="caution-icon"></i>Caution</span></div><div class="caution-body"><ul class="itemizedlist"><li><p class="p">Always use gloves when removing food and accessories after cooking as the oven and accessories will be very hot.</p></li></ul></div></div><div class="note"><div class="note-title"><span><i class="note-icon"></i>Note</span></div><div class="note-body"><ul class="itemizedlist"><li><p class="p">The rack can be used in grill and grill combination cooking. Place the rack on the glass tray.</p><div><div data-fileref="../../fig/t_00079899_r4/using_the_grill_cooking_rack_rev1.eps" data-filename="using_the_grill_cooking_rack_rev1.eps" data-delextention="using_the_grill_cooking_rack_rev1" data-isgif="" class="graphic"><img src="./res/fig/t_00079899_r4/using_the_grill_cooking_rack_rev1.png"></div></div></li></ul></div></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_18"><span class="page-marker"></span></a><a href="#topic_19"><span class="page-marker"></span></a><a href="#topic_20"><span class="page-marker isCurrent"></span></a><a href="#topic_21"><span class="page-marker"></span></a><a href="#topic_22"><span class="page-marker"></span></a><a href="#topic_23"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="SMART FUNCTIONS"><meta id="Section_Title" name="Section_Title" content="Smart Diagnosis"><meta id="Topic_Title" name="Topic_Title" content="Using LG ThinQ to Diagnose Issues"><meta id="Topic_ID" name="Topic_ID" content="t_00101268_r1_20181228084848_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_3">SMART FUNCTIONS</a> &gt; <a class="bread-clumb-item" href="#section_15">Smart Diagnosis</a> &gt; Using LG ThinQ to Diagnose Issues</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Using LG ThinQ to Diagnose Issues</h2><p class="p">If you experience a problem with your Wi-Fi equipped appliance, it can transmit troubleshooting data to a smartphone using the <span class="key">LG ThinQ</span> application.</p><ul class="itemizedlist"><li><p class="p">Launch the <span class="key">LG ThinQ</span> application and select the <span class="key">Smart Diagnosis</span> feature in the menu. Follow the instructions provided in the <span class="key">LG ThinQ</span> application. </p></li></ul></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_53"><span class="page-marker isCurrent"></span></a><a href="#topic_54"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="IMPORTANT SAFETY INSTRUCTIONS"><meta id="Section_Title" name="Section_Title" content="WARNING"><meta id="Topic_Title" name="Topic_Title" content="Installation"><meta id="Topic_ID" name="Topic_ID" content="t_00009233_r5_20191101110434_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#preface_1">IMPORTANT SAFETY INSTRUCTIONS</a> &gt; <a class="bread-clumb-item" href="#section_2">WARNING</a> &gt; Installation</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Installation</h2><ul class="itemizedlist"><li><p class="p">Ensure that the outlet socket is properly grounded, and that the earth pin on the power cord is not damaged or removed from the power plug. For more details on grounding, inquire at an LG Electronics customer information centre.</p></li><li><p class="p">This appliance must be earthed. The wires in the mains lead are coloured in accordance with the following codes:</p><ul class="itemizedlist"><li><p class="p">BLUE: Neutral</p></li><li><p class="p">BROWN: Live</p></li><li><p class="p">GREEN and YELLOW: Earth</p></li></ul></li><li><p class="p">As the colours of the wires in the mains lead of this appliance may not correspond with the coloured markings identifying the terminals in your plug proceed as follows:</p><ul class="itemizedlist"><li><p class="p">The wire which is coloured BLUE must be connected to the terminal which is marked with the letter N or coloured BLACK.</p></li><li><p class="p">The wire which is coloured BROWN must be connected to the terminal which is marked with the letter L or Coloured RED.</p></li><li><p class="p">The wire which is coloured GREEN &amp; YELLOW or GREEN must be connected to the terminal which is marked with the letter G or  earth symbol.</p><TABLE class="table-border-none" WIDTH="100%"><colgroup><col style="width:10%"><col style="width:90%"></colgroup><TBODY><TR><TD class="column-border-none cell_center cell_middle"><div><div data-fileref="../../fig/t_00009233_r5/icon.eps" data-filename="icon.eps" data-delextention="icon" data-isgif="" class="graphic"><img src="./res/fig/t_00009233_r5/icon.png"></div></div></TD><TD class="column-border-none"><p class="p">Earth symbol</p></TD></TR></TBODY></TABLE></li></ul></li><li><p class="p">This appliance incorporates an earth connection for functional purposes.</p></li><li><p class="p">If the supply cord is damaged, it must be replaced by the manufacturer, its service agent of similarly qualified persons in order to avoid a hazard. Improper use may cause serious electric damage.</p></li><li><p class="p">The appliance is supplied from a cord extension set or an electrical portable outlet device, the cord extension set on electrical portable outlet device must be positioned so that it is not subject to splashing or ingress of moisture.</p></li><li><p class="p">If the power cord is damaged or the hole of the outlet socket is loose, do not use the power cord and contact an authorized service centre.</p></li></ul></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_2"><span class="page-marker"></span></a><a href="#topic_3"><span class="page-marker isCurrent"></span></a><a href="#topic_4"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

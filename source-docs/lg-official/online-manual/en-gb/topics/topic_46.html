@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="OPERATION"><meta id="Section_Title" name="Section_Title" content="Utensils Guide"><meta id="Topic_Title" name="Topic_Title" content="Microwave-Safe Utensils"><meta id="Topic_ID" name="Topic_ID" content="t_00006241_r10_20191101141337_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_2">OPERATION</a> &gt; <a class="bread-clumb-item" href="#section_12">Utensils Guide</a> &gt; Microwave-Safe Utensils</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Microwave-Safe Utensils</h2><ul class="itemizedlist"><li><p class="p"><span class="emphasis bold">Ovenproof Glass</span>: Glassware  that is heat-resistant is microwave-safe. This would include all brands of  oven tempered glass utensils. However, do not use delicate glassware, such as  tumblers or wine glasses, as these might shatter as the food warms.</p></li><li><p class="p"><span class="emphasis bold">Pottery  Stoneware Ceramic</span>: Use   bowls, cups, serving plates, pottery, stoneware, ceramic, and platters   without metallic rim. Many containers made of these materials are microwave-safe, but test them  before use.</p></li><li><p class="p"><span class="emphasis bold">Plastic</span></p><ul class="itemizedlist"><li><p class="p"><span class="emphasis bold">Plastic Storage Containers</span>: These can be used to hold foods that are to be quickly reheated. However,  they should not be used to hold foods that will need considerable time in the  oven as hot foods will eventually warp or melt plastic containers.</p></li><li><p class="p"><span class="emphasis bold">Plastic Cooking Bags</span>: Provided they are specially made for cooking, cooking bags are microwave  safe. Remember to make a slit in the bag so that steam can escape. Never use  ordinary plastic bags for cooking in the microwave oven, as they will melt  and rupture. </p></li><li><p class="p"><span class="emphasis bold">Plastic Microwave Utensils</span>: A variety of shapes and sizes of microwave utensils are available. You may  be able to use items you already have on hand rather than investing in new  kitchen equipment.</p></li></ul></li><li><p class="p"><span class="emphasis bold">Paper</span>: Use paper towels, waxed paper, paper napkins, and paper plates with no metallic  rim or design. Paper plates and containers are convenient and safe to use in  the microwave oven, provided that the cooking time is short and foods to be  cooked are low in fat and moisture. Paper towels are also very useful for  wrapping foods and for lining baking trays in which greasy foods such as  bacon are cooked. In general, avoid coloured paper products as the color may  run. Some recycled paper products may contain impurities which could cause  arcing or fires when used in the microwave.</p></li><li><p class="p"><span class="emphasis bold">Tableware</span>: Many   containers made of pottery, stoneware and ceramic are also microwave-safe.  If  in doubt consult the manufacturer’s literature or perform the microwave  test. Do not put plates with painted decoration in the oven, as the paint may  contain metal and cause arcing.</p></li></ul></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_46"><span class="page-marker isCurrent"></span></a><a href="#topic_47"><span class="page-marker"></span></a><a href="#topic_48"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

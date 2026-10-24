@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="OPERATION"><meta id="Section_Title" name="Section_Title" content="Utensils Guide"><meta id="Topic_Title" name="Topic_Title" content="Microwave-Unsafe Utensils"><meta id="Topic_ID" name="Topic_ID" content="t_00006242_r9_20191101141455_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_2">OPERATION</a> &gt; <a class="bread-clumb-item" href="#section_12">Utensils Guide</a> &gt; Microwave-Unsafe Utensils</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Microwave-Unsafe Utensils</h2><ul class="itemizedlist"><li><p class="p"> <span class="emphasis bold">Metal   Containers</span> and <span class="emphasis bold">Metal Decoration</span></p><ul class="itemizedlist"><li><p class="p">Never use  metal or metal-rimmed  utensils in the microwave oven. </p></li><li><p class="p">Microwaves  cannot penetrate metal. They will bounce off any metal object in  the oven and  cause arcing, an alarming phenomenon that resembles  lightning. </p></li><li><p class="p">Metal shields  the food from microwave energy and produces uneven cooking.  Also avoid metal  skewers, thermometers, foil trays, metal-rimmed or  metal-banded dinnerware,  casserole dishes, etc. The metal rim interferes with  normal cooking and may damage the oven.</p></li></ul></li></ul></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_46"><span class="page-marker"></span></a><a href="#topic_47"><span class="page-marker isCurrent"></span></a><a href="#topic_48"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

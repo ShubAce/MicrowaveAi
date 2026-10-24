@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="INSTALLATION"><meta id="Section_Title" name="Section_Title" content="Installation Requirements"><meta id="Topic_Title" name="Topic_Title" content="Rotisserie Installation"><meta id="Topic_ID" name="Topic_ID" content="t_00102558_r1_20230221150354_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_1">INSTALLATION</a> &gt; <a class="bread-clumb-item" href="#section_6">Installation Requirements</a> &gt; Rotisserie Installation</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Rotisserie Installation</h2><p class="p">Never operate the oven at combination mode with rotisserie bar (without food). Do not use the rotisserie bar in microwave oven mode.</p><ul class="procedure"><li><div class="step-contents"><p class="p">Position and insert the food in the Rotisserie bar skewers (seekh), ensuring that the rotisserie bar runs centrally through the food. And tie the food with thread to the bar if necessary.</p></div></li><li><div class="step-contents"><p class="p">Insert the end of the rotisserie bar <span class="number">c</span> into the rotisserie jaw <span class="number">d</span> on the right hand of the oven wall. Push it  to the right, rotating the rotisserie bar slightly until the rotisserie-bar fits into the rotisserie jaw <span class="number">d</span>.</p></div></li><li><div class="step-contents"><p class="p">Support the other end of the rotisserie bar <span class="number">b</span> on the hollow of the rotisserie holder <span class="number">a</span>.</p></div></li></ul><div><div data-fileref="../../fig/t_00102558_r1/install_rotisserie_bar.svg" data-filename="install_rotisserie_bar.svg" data-delextention="install_rotisserie_bar" data-isgif="0" class="graphic"><img src="./res/fig/t_00102558_r1/install_rotisserie_bar.svg"></div></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_12"><span class="page-marker"></span></a><a href="#topic_13"><span class="page-marker"></span></a><a href="#topic_14"><span class="page-marker isCurrent"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

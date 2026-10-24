@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="INSTALLATION"><meta id="Section_Title" name="Section_Title" content="Product Overview"><meta id="Topic_Title" name="Topic_Title" content="Specifications"><meta id="Topic_ID" name="Topic_ID" content="t_00176394_r2_20191101135323_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_1">INSTALLATION</a> &gt; <a class="bread-clumb-item" href="#section_5">Product Overview</a> &gt; Specifications</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Specifications</h2><p class="p">Power supply and power consumption may vary depending on the model purchased. Refer to the labels for details.</p><dl class="variablelist"><dt>MJEN286UFWF MJEN286UHWF MJEN286UGWF MJEN286UBWF MJEN286UJWF</dt><ul class="itemizedlist"><li><p class="p"><span class="emphasis bold">Microwave Output</span>: Max. 900 W<span class="footnoteref">*1</span></p></li><li><p class="p"><span class="emphasis bold">Frequency</span>: 2450 MHz<span class="footnoteref">*2</span></p></li><li><p class="p"><span class="emphasis bold">Dimensions (W x H x D)</span>: 512 mm x 311 mm x 488 mm</p></li><li><p class="p"><span class="emphasis bold">Power Supply</span>: 230 V~ 50 Hz</p><ul class="itemizedlist"><li><p class="p"><span class="emphasis bold">Power Consumption</span>: Microwave 1350 W, Grill 1200 W, Convection 1950 W, Grill Combination 1350 W, Convection Combination 1950 W</p></li></ul></li></ul><div class="footnotegroup"><div class="footnote">*1</div><p class="p">IEC 60705 RATING STANDARD. Specifications are subject to change without prior notice.</p><div class="footnote">*2</div><p class="p">Microwave Frequency: 2450 MHz +/- 50 MHz (Group 2 / Class B)</p><p class="p">Group 2 equipment: group 2 contains all ISM RF equipment in which radio-frequency energy in the frequency range 9 kHz to 400GHz is intentionally generated and used or only used, in the form of electromagnetic radiation, inductive and /or capacitive coupling, for the treatment of material or inspection/analysis purposes.</p><p class="p">Class B equipment is equipment suitable for use in domestic dwellings and domestic dwellings directly connected to a low voltage power supply network which supplies buildings used for domestic purposes.</p></div></dl><div class="note"><div class="note-title"><span><i class="note-icon"></i>Note</span></div><div class="note-body"><ul class="itemizedlist"><li><p class="p">When operating at 100% and 80% power levels for prolonged periods, the output power will be reduced gradually to help prevent the unit from electrically overheating.</p></li></ul></div></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_9"><span class="page-marker"></span></a><a href="#topic_10"><span class="page-marker"></span></a><a href="#topic_11"><span class="page-marker isCurrent"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

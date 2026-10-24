@@ -1,0 +1,34 @@
+<div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; IMPORTANT SAFETY INSTRUCTIONS</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"><div class="topic-contents main-page"><h1>IMPORTANT SAFETY INSTRUCTIONS</h1><div class="containd-section"><dl><dt>Contains Topics</dt><dd><a href="#section_1">READ CAREFULLY AND KEEP FOR FUTURE REFERENCE</a></dd><dd><a href="#section_2">WARNING</a></dd><dd><a href="#section_3">CAUTION</a></dd><dd><a href="#section_4">CARING FOR THE ENVIRONMENT</a></dd></dl></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"></div><script>
+                        
+
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:0,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							  });
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 1) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

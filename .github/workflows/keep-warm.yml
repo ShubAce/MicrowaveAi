@@ -1,0 +1,32 @@
+# Pings the app every 20 minutes so a server instance stays warm. Vercel's own cron jobs can run
+# only once a day on the free Hobby plan, so the ping comes from GitHub instead. It calls
+# GET /api/ask, which answers "ok" without calling Gemini or Sarvam, so it uses no API credits.
+#
+# Setup once: repository → Settings → Secrets and variables → Actions → Variables → New variable
+#   Name: SAKHI_URL   Value: https://<your-app>.vercel.app
+#
+# Schedule: every 20 minutes from 5:30 AM to 11:10 PM India time (cron runs in UTC). That is about
+# 1,700 runs a month, inside the 2,000 free Actions minutes of a private repository. To ping all day
+# and night, change the cron line to "*/20 * * * *" (free on a public repository; on a private one
+# it would run past the free minutes near the end of each month).
+name: Keep Sakhi awake
+
+on:
+  schedule:
+    - cron: "*/20 0-17 * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Ping /api/ask
+        env:
+          SAKHI_URL: ${{ vars.SAKHI_URL }}
+        run: |
+          if [ -z "$SAKHI_URL" ]; then
+            echo "::warning::Set the SAKHI_URL repository variable to the app's address (see the top of this file)."
+            exit 0
+          fi
+          curl --fail --silent --show-error --max-time 30 "${SAKHI_URL%/}/api/ask"

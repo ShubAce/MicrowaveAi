@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="SMART FUNCTIONS"><meta id="Section_Title" name="Section_Title" content="Smart Diagnosis"><meta id="Topic_Title" name="Topic_Title" content="Using Audible Diagnosis to Diagnose Issues"><meta id="Topic_ID" name="Topic_ID" content="t_00102361_r2_20191104084253_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_3">SMART FUNCTIONS</a> &gt; <a class="bread-clumb-item" href="#section_15">Smart Diagnosis</a> &gt; Using Audible Diagnosis to Diagnose Issues</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Using Audible Diagnosis to Diagnose Issues</h2><ol class="orderedlist arabic"><li><p class="p">Hold the mouthpiece of your phone in front of the display located on the control panel. Do not touch any other buttons.</p><div><div data-fileref="../../fig/t_00102361_r2/smart_diagnosis_rev1.svg" data-filename="smart_diagnosis_rev1.svg" data-delextention="smart_diagnosis_rev1" data-isgif="0" class="graphic"><img src="./res/fig/t_00102361_r2/smart_diagnosis_rev1.svg"></div></div></li><li><p class="p">Press and hold the <span class="key">STOP/Cancel</span> button for 8 seconds until <span class="key">5</span> appears in the display. </p></li><li><p class="p">After you hear three beeps, release the <span class="key">STOP/Cancel</span> button.</p></li><li><p class="p">Keep the phone in place until the tone transmission has finished. The display will count down the time. Once the countdown is over and the tones have stopped, the diagnosis will be displayed in the application.</p></li></ol><div class="note"><div class="note-title"><span><i class="note-icon"></i>Note</span></div><div class="note-body"><ul class="itemizedlist"><li><p class="p">For best results, do not move the phone while the tones are being transmitted.</p></li></ul></div></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_53"><span class="page-marker"></span></a><a href="#topic_54"><span class="page-marker isCurrent"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

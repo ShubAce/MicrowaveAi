@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="OPERATION"><meta id="Section_Title" name="Section_Title" content="Quick Start"><meta id="Topic_Title" name="Topic_Title" content="Convection Combination Cooking"><meta id="Topic_ID" name="Topic_ID" content="t_00102377_r1_20191202140211_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_2">OPERATION</a> &gt; <a class="bread-clumb-item" href="#section_9">Quick Start</a> &gt; Convection Combination Cooking</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Convection Combination Cooking</h2><p class="p">This feature allow you to combine microwave cooking with the hot blast heating to cook quickly.</p><ul class="procedure"><li><div class="step-contents"><p class="p">Press <span class="key">STOP/Cancel</span>.</p></div></li><li><div class="step-contents"><p class="p">Press <span class="key">Cook Mode</span> until <span class="emphasis bold">CC-1</span> appears in the display.</p></div></li><li><div class="step-contents"><p class="p">Select a desired microwave power level code by using <span class="key">More/Less</span>, and press <span class="key">START/Select</span>.</p><ul class="itemizedlist"><li><p class="p">Microwave power level code</p><ul class="itemizedlist"><li><p class="p"><span class="emphasis bold">CC-1</span>: 180 W, <span class="emphasis bold">CC-2</span>: 270 W, <span class="emphasis bold">CC-3</span>: 360 W</p></li></ul></li></ul></div></li><li><div class="step-contents"><p class="p">Select a desired temperature by using <span class="key">More/Less</span>, and press <span class="key">START/Select</span>.</p></div></li><li><div class="step-contents"><p class="p">Select a desired time by using <span class="key">More/Less</span>, and press <span class="key">START/Select</span>.</p><ul class="itemizedlist"><li><p class="p">During cooking you can turn the dial to adjust the cooking time.</p></li></ul></div></li></ul><div class="caution"><div class="caution-title"><span><i class="caution-icon"></i>Caution</span></div><div class="caution-body"><ul class="itemizedlist"><li><p class="p">Always use gloves when removing food and accessories after cooking as the oven and accessories will be very hot.</p></li><li><p class="p">Be careful when removing food as the container will be hot.</p></li><li><p class="p">The low rack can be used in convection, and convection combination cooking. Place the low rack on the glass tray.</p><div><div data-fileref="../../fig/t_00102377_r1/using_the_grill_cooking_short_rack.eps" data-filename="using_the_grill_cooking_short_rack.eps" data-delextention="using_the_grill_cooking_short_rack" data-isgif="" class="graphic"><img src="./res/fig/t_00102377_r1/using_the_grill_cooking_short_rack.png"></div></div></li></ul></div></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_18"><span class="page-marker"></span></a><a href="#topic_19"><span class="page-marker"></span></a><a href="#topic_20"><span class="page-marker"></span></a><a href="#topic_21"><span class="page-marker"></span></a><a href="#topic_22"><span class="page-marker"></span></a><a href="#topic_23"><span class="page-marker isCurrent"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

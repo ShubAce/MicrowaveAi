@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="INSTALLATION"><meta id="Section_Title" name="Section_Title" content="Product Overview"><meta id="Topic_Title" name="Topic_Title" content="Front View"><meta id="Topic_ID" name="Topic_ID" content="t_00102388_r1_20191101135231_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_1">INSTALLATION</a> &gt; <a class="bread-clumb-item" href="#section_5">Product Overview</a> &gt; Front View</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Front View</h2><div><div data-fileref="../../fig/t_00102388_r1/front_view_rev1.svg" data-filename="front_view_rev1.svg" data-delextention="front_view_rev1" data-isgif="0" class="graphic"><img src="./res/fig/t_00102388_r1/front_view_rev1.svg"></div><ol class="calloutlist"><li><p class="p">Control Panel</p></li><li><p class="p">Mica Sheet</p></li><li><p class="p">Rating Label</p></li><li><p class="p">Safety Door Lock System</p></li><li><p class="p">Window</p></li></ol></div><div class="warning"><div class="warning-title"><span><i class="warning-icon"></i>Warning</span></div><div class="warning-body"><ul class="itemizedlist"><li><p class="p">Do not operate the oven when it is empty or without the glass tray. It is best to leave a glass of water in the oven when not in use. The water will safely absorb all microwave energy, if the oven is accidentally started.</p></li></ul></div></div><div class="caution"><div class="caution-title"><span><i class="caution-icon"></i>Caution</span></div><div class="caution-body"><ul class="itemizedlist"><li><p class="p">To avoid risk of personal injury or property damage, do not use stoneware, metal cookware, or metal rimmed cookware in the oven.</p></li></ul></div></div><div class="note"><div class="note-title"><span><i class="note-icon"></i>Note</span></div><div class="note-body"><ul class="itemizedlist"><li><p class="p">Do not remove the mica sheet from the inside cavity of the oven. It is there to protect the microwave components from food spatters. </p></li></ul></div></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_9"><span class="page-marker isCurrent"></span></a><a href="#topic_10"><span class="page-marker"></span></a><a href="#topic_11"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

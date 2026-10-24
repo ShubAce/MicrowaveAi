@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="INSTALLATION"><meta id="Section_Title" name="Section_Title" content="Installation Requirements"><meta id="Topic_Title" name="Topic_Title" content="Radio Frequency Interference"><meta id="Topic_ID" name="Topic_ID" content="t_00006227_r2_20191101114631_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_1">INSTALLATION</a> &gt; <a class="bread-clumb-item" href="#section_6">Installation Requirements</a> &gt; Radio Frequency Interference</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Radio Frequency Interference</h2><ul class="itemizedlist"><li><p class="p">When operating the microwave oven, If you use a product such as radio, TV, wireless LAN, Bluetooth, medical equipment, wireless equipment etc.</p></li><li><p class="p">Using the same frequency as the microwave oven, the product may receive interference from these products. This interference does not indicate a problem of the microwave or the product and is not a malfunction. Therefore, it is safe to use. However, medical equipment may receive interference as well, so use caution when using medical equipment near the product.</p></li></ul></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_12"><span class="page-marker"></span></a><a href="#topic_13"><span class="page-marker isCurrent"></span></a><a href="#topic_14"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

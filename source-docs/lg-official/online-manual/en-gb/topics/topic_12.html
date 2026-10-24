@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="INSTALLATION"><meta id="Section_Title" name="Section_Title" content="Installation Requirements"><meta id="Topic_Title" name="Topic_Title" content="Installation Location"><meta id="Topic_ID" name="Topic_ID" content="t_00008662_r3_20191101140804_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_1">INSTALLATION</a> &gt; <a class="bread-clumb-item" href="#section_6">Installation Requirements</a> &gt; Installation Location</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Installation Location</h2><ul class="procedure"><li><div class="step-contents"><p class="p">Place the microwave oven on a flat surface with more than 85 cm height.</p><ul class="itemizedlist"><li><p class="p">The front of the oven should be at least 8 cm from the edge of the surface to prevent tipping.</p></li></ul></div></li><li><div class="step-contents"><p class="p">Allow at least 20 cm from the top, 20 cm from the sides, and 20 cm back of the oven for proper ventilation.</p><ul class="itemizedlist"><li><p class="p">Free airflow around the oven is important.</p></li><li><p class="p">An exhaust outlet is located on bottom or side of the oven. If you use the microwave oven in an enclosed space or cupboard, the air flow for cooling the product could be worse. It may result in lower performance and reduced service life. </p></li></ul><div><div data-fileref="../../fig/t_00008662_r3/installation_location_20_20_20_20.eps" data-filename="installation_location_20_20_20_20.eps" data-delextention="installation_location_20_20_20_20" data-isgif="" class="graphic"><img src="./res/fig/t_00008662_r3/installation_location_20_20_20_20.png"></div></div></div></li><li><div class="step-contents"><p class="p">Place the rotating ring inside the oven and place the glass tray on top.</p></div></li><li><div class="step-contents"><p class="p">Insert the power plug into an outlet.</p><ul class="itemizedlist"><li><p class="p">Do not block the outlet to prevent damage the oven.</p></li><li><p class="p">Make sure the microwave oven is the only appliance connected to the socket.</p></li><li><p class="p">If your oven does not operate properly, unplug it from the electrical socket and then plug it back in.</p></li></ul></div></li></ul><div class="note"><div class="note-title"><span><i class="note-icon"></i>Note</span></div><div class="note-body"><ul class="itemizedlist"><li><p class="p">Do not place oven above a gas or electric range.</p></li><li><p class="p">The setting of the cooking time should be shorter than common microwave ovens (700 W, 800 W) due to the relatively high output power of the product.</p></li></ul></div></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_12"><span class="page-marker isCurrent"></span></a><a href="#topic_13"><span class="page-marker"></span></a><a href="#topic_14"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

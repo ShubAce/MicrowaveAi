@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="TROUBLESHOOTING"><meta id="Section_Title" name="Section_Title" content="FAQs"><meta id="Topic_Title" name="Topic_Title" content="Frequently Asked Questions"><meta id="Topic_ID" name="Topic_ID" content="t_00094795_r1_20191104085527_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#appendix_1">TROUBLESHOOTING</a> &gt; <a class="bread-clumb-item" href="#section_16">FAQs</a> &gt; Frequently Asked Questions</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Frequently Asked Questions</h2><p class="p"><span class="emphasis bold">Q</span>: <span class="emphasis bold">What’s wrong when the oven light will not glow?</span></p><p class="p">A: There may be several reasons why the oven light will not glow. Either the light bulb has blown or the electric circuit has failed.</p><p class="p"><span class="emphasis bold">Q:</span> <span class="emphasis bold">Does microwave energy pass through the viewing screen in the door?</span></p><p class="p">A: No. The holes, or ports, are made to allow light to pass; they do not let microwave energy through.</p><p class="p"><span class="emphasis bold">Q:</span> <span class="emphasis bold">Why does the beep tone sound when a button on the control panel is touched?</span></p><p class="p">A: The beep tone sounds to assure that the setting is being properly entered.</p><p class="p"><span class="emphasis bold">Q:</span> <span class="emphasis bold">Will the microwave function be damaged if it operates empty?</span></p><p class="p">A: Yes. Never run it empty.</p><p class="p"><span class="emphasis bold">Q:</span> <span class="emphasis bold">Why do eggs sometimes pop?</span></p><p class="p">A: When baking, frying, or poaching eggs, the yolk may pop due to steam build up inside the yolk membrane. To prevent this, simply pierce the yolk before cooking. Never microwave eggs in the shell.</p><p class="p"><span class="emphasis bold">Q:</span> <span class="emphasis bold">Why is standing time recommended after microwave cooking is over?</span></p><p class="p">A: After microwave cooking is finished, food keeps on cooking during standing time. This standing time finishes cooking evenly throughout the food. the amount of standing time depends on the density of the food.</p><p class="p"><span class="emphasis bold">Q:</span> <span class="emphasis bold">Why doesn’t my oven always cook as fast as the cooking guide says?</span></p><p class="p">A:</p><ul class="itemizedlist"><li><p class="p">Check your cooking guide again to make sure you have followed directions correctly, and to see what might cause variations in cooking time.</p></li><li><p class="p">Cooking guide times and heat settings are suggestions, chosen to help prevent overcooking, the most common problem in getting used to this oven.</p></li><li><p class="p">Variations in the size, shape, weight and dimensions of the food require longer cooking time.</p></li><li><p class="p">Use your own judgment along with the cooking guide suggestions to test food conditions, just as you would do with a conventional cooker.</p></li></ul></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_55"><span class="page-marker isCurrent"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

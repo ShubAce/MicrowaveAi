@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="SMART FUNCTIONS"><meta id="Section_Title" name="Section_Title" content="LG ThinQ Application"><meta id="Topic_Title" name="Topic_Title" content="Open Source Software Notice Information"><meta id="Topic_ID" name="Topic_ID" content="t_00101259_r2_20181228084733_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_3">SMART FUNCTIONS</a> &gt; <a class="bread-clumb-item" href="#section_14">LG ThinQ Application</a> &gt; Open Source Software Notice Information</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Open Source Software Notice Information</h2><p class="p">To obtain the source code that is contained in this product, under GPL, LGPL, MPL, and other open source licenses that have the obligation to disclose source code, and to access all referred license terms, copyright notices, please visit <a class="url" id="t_00101259_r2_20260423105322909_4" href="https://opensource.lge.com" target="_blank">https://opensource.lge.com</a>.</p><p class="p">LG Electronics will also provide open source code to you for a charge covering the cost of performing such distribution upon email request to <a class="mailto" id="t_00101259_r2_20260423105322909_9" href="mailto:opensource@lge.com" target="_blank">opensource@lge.com</a>.</p><p class="p">This offer is valid to anyone in receipt of this information for a period of three years after our last shipment of this product.</p></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_50"><span class="page-marker"></span></a><a href="#topic_51"><span class="page-marker"></span></a><a href="#topic_52"><span class="page-marker isCurrent"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

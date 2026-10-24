@@ -1,0 +1,33 @@
+<div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; OPERATION</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h1>OPERATION</h1><div class="containd-section"><dl><dt>Contains Topics</dt><dd><a href="#section_7">Control Panel</a></dd><dd><a href="#section_8">Before Use</a></dd><dd><a href="#section_9">Quick Start</a></dd><dd><a href="#section_10">Cooking Mode</a></dd><dd><a href="#section_11">Recipe</a></dd><dd><a href="#section_12">Utensils Guide</a></dd><dd><a href="#section_13">Cooking Guide</a></dd></dl></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

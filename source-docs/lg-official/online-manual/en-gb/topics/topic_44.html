@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="OPERATION"><meta id="Section_Title" name="Section_Title" content="Recipe"><meta id="Topic_Title" name="Topic_Title" content="Two Recipes for Beginners"><meta id="Topic_ID" name="Topic_ID" content="t_00102432_r2_20230302080133_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_2">OPERATION</a> &gt; <a class="bread-clumb-item" href="#section_11">Recipe</a> &gt; Two Recipes for Beginners</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Two Recipes for Beginners</h2><div class="simplesect"><h3>Roasted Papad</h3><dl class="variablelist"><dt>Papad</dt><ul class="procedure"><li><div class="step-contents"><p class="p">Place the raw papad at the centre of glass tray.</p></div></li><li><div class="step-contents"><p class="p">Select microwave oven 100% power level and cook time, then press start.</p></div></li><li><div class="step-contents"><p class="p">After papad cooking give standing time of 30-45 seconds.</p></div></li></ul><dt>Multiple papads</dt><p class="p">Place multiple papads over one another.</p><dt>Crispy papad</dt><ul class="procedure"><li><div class="step-contents"><p class="p">Press start once without papad.</p></div></li><li><div class="step-contents"><p class="p">Sprinkle little water or oil over the papad.</p></div></li><li><div class="step-contents"><p class="p">After beep, place the papad at the at the center, then press start.</p></div></li></ul></dl><div><div data-fileref="../../fig/t_00102432_r2/papad_rev1.svg" data-filename="papad_rev1.svg" data-delextention="papad_rev1" data-isgif="0" class="graphic"><img src="./res/fig/t_00102432_r2/papad_rev1.svg"></div><ol class="calloutlist"><li><p class="p">Papad</p></li><li><p class="p">Multiple Papads</p></li><li><p class="p">Glass Tray</p></li></ol></div><div class="note"><div class="note-title"><span><i class="note-icon"></i>Note</span></div><div class="note-body"><ul class="itemizedlist"><li><p class="p">The cooking time may vary.</p><ul class="itemizedlist"><li><p class="p">As per the composition of the papad material.</p></li><li><p class="p">As per the Quantity of papad used.</p></li></ul></li></ul></div></div></div><div class="simplesect"><h3>Pop Corn</h3><ul class="procedure"><li><div class="step-contents"><p class="p">Place the pop corn bag to the glass tray properly as instructed on packing.</p></div></li><li><div class="step-contents"><p class="p">Press start to set 3~4 minutes.</p></div></li><li><div class="step-contents"><p class="p">Remove the bag after poping sound has stopped. Take care that bag corners do not touch sides while rotating.</p></div></li></ul><div><div data-fileref="../../fig/t_00102432_r2/popcorn.svg" data-filename="popcorn.svg" data-delextention="popcorn" data-isgif="0" class="graphic"><img src="./res/fig/t_00102432_r2/popcorn.svg"></div><ol class="calloutlist"><li><p class="p">Pop Corn</p></li></ol></div><div class="note"><div class="note-title"><span><i class="note-icon"></i>Note</span></div><div class="note-body"><ul class="itemizedlist"><li><p class="p">Attend poping process carefully. </p></li><li><p class="p">Do not overheat as cause flash fire.</p></li></ul></div></div></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_30"><span class="page-marker"></span></a><a href="#topic_31"><span class="page-marker"></span></a><a href="#topic_32"><span class="page-marker"></span></a><a href="#topic_33"><span class="page-marker"></span></a><a href="#topic_34"><span class="page-marker"></span></a><a href="#topic_35"><span class="page-marker"></span></a><a href="#topic_36"><span class="page-marker"></span></a><a href="#topic_37"><span class="page-marker"></span></a><a href="#topic_38"><span class="page-marker"></span></a><a href="#topic_39"><span class="page-marker"></span></a><a href="#topic_40"><span class="page-marker"></span></a><a href="#topic_41"><span class="page-marker"></span></a><a href="#topic_42"><span class="page-marker"></span></a><a href="#topic_43"><span class="page-marker"></span></a><a href="#topic_44"><span class="page-marker isCurrent"></span></a><a href="#topic_45"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

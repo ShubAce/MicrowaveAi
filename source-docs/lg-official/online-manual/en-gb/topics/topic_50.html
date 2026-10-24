@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="SMART FUNCTIONS"><meta id="Section_Title" name="Section_Title" content="LG ThinQ Application"><meta id="Topic_Title" name="Topic_Title" content="LG ThinQ Application Features"><meta id="Topic_ID" name="Topic_ID" content="t_00102300_r2_20181231112429_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_3">SMART FUNCTIONS</a> &gt; <a class="bread-clumb-item" href="#section_14">LG ThinQ Application</a> &gt; LG ThinQ Application Features</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>LG ThinQ Application Features</h2><p class="p">Communicate with the appliance from a smartphone using the convenient smart features.</p><dl class="variablelist"><dt><span class="key">Smart Diagnosis</span></dt><p class="p">This function provides useful information for diagnosing and solving issues with the appliance based on the pattern of use.</p><dt>Scan to Cook</dt><p class="p">Scan the barcode on a ready-made meal using the <span class="key">LG ThinQ</span> application and send the recommended or customized cooking instructions straight to your oven.</p><dt>Monitoring</dt><p class="p">This function helps you check the current status, remaining time, cook settings and end time in one place.</p><dt>Product Notifications</dt><p class="p">Turn on the Push Alerts to receive appliance status notifications. The notifications are triggered even if the <span class="key">LG ThinQ</span> application is not open.</p><dt>Firmware Update</dt><p class="p">Keep the appliance updated.</p><dt>Settings</dt><p class="p">Allows you to set various options on the appliance and in the application.</p></dl><div class="note"><div class="note-title"><span><i class="note-icon"></i>Note</span></div><div class="note-body"><ul class="itemizedlist"><li><p class="p">In the following cases, you must update the network information for each appliance in the <span class="key">LG ThinQ</span> application under <span class="emphasis bold">Device Cards</span> <span class="icon icon_common">~</span> <span class="emphasis bold">Settings</span> <span class="icon icon_common">~</span> <span class="emphasis bold">Change Network</span>.</p><ul class="itemizedlist"><li><p class="p">wireless router is changed</p></li><li><p class="p">wireless router password is changed</p></li><li><p class="p">Internet service provider is changed</p></li></ul></li><li><p class="p">The application is subject to change for appliance improvement purposes without notice to users.</p></li><li><p class="p">Functions may vary by model.</p></li></ul></div></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_50"><span class="page-marker isCurrent"></span></a><a href="#topic_51"><span class="page-marker"></span></a><a href="#topic_52"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

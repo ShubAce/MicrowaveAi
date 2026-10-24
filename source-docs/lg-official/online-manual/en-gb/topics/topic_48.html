@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="OPERATION"><meta id="Section_Title" name="Section_Title" content="Utensils Guide"><meta id="Topic_Title" name="Topic_Title" content="Testing Utensils before Use"><meta id="Topic_ID" name="Topic_ID" content="t_00006243_r4_20191101141510_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_2">OPERATION</a> &gt; <a class="bread-clumb-item" href="#section_12">Utensils Guide</a> &gt; Testing Utensils before Use</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Testing Utensils before Use</h2><p class="p">Most heat resistant and non-metallic utensils is safe for use in your oven. However, some utensils may contain materials that are not suitable for microwave use. Follow the steps below to find out if utensils can be used in the microwave.</p><ul class="procedure"><li><div class="step-contents"><p class="p">Place the container in question and a glass measuring cup filled with water next to each other inside the oven. </p></div></li><li><div class="step-contents"><p class="p">Heat the container and glass measuring cup for 1 minute at HIGH power.</p><ul class="itemizedlist"><li><p class="p">If the water heats up but the container remains cool to the press, the container is microwave-safe.</p></li><li><p class="p">If the temperature of the water does not change but the container becomes warm, it is not safe for use in the microwave oven.</p></li></ul></div></li></ul><div class="caution"><div class="caution-title"><span><i class="caution-icon"></i>Caution</span></div><div class="caution-body"><ul class="itemizedlist"><li><p class="p">Some items with high lead or iron content are not suitable for microwave cooking.</p></li><li><p class="p">Utensils should be checked to ensure that it is suitable for use in the microwave.</p></li><li><p class="p">Always be careful when taking utensils out of the oven. Some dishes absorb heat from the cooked food and may be hot.</p></li></ul></div></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_46"><span class="page-marker"></span></a><a href="#topic_47"><span class="page-marker"></span></a><a href="#topic_48"><span class="page-marker isCurrent"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

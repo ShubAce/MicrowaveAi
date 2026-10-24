@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="IMPORTANT SAFETY INSTRUCTIONS"><meta id="Section_Title" name="Section_Title" content="CAUTION"><meta id="Topic_Title" name="Topic_Title" content="Maintenance"><meta id="Topic_ID" name="Topic_ID" content="t_00079858_r3_20191101110538_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#preface_1">IMPORTANT SAFETY INSTRUCTIONS</a> &gt; <a class="bread-clumb-item" href="#section_3">CAUTION</a> &gt; Maintenance</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Maintenance</h2><ul class="itemizedlist"><li><p class="p">If it is necessary to take precautions during user maintenance, appropriate details shall be given.</p></li><li><p class="p">Do not rinse containers, tray and rack by placing them in water immediately after cooking.</p></li><li><p class="p">Unplug the power plug and allow it to cool before cleaning.</p></li><li><p class="p">Always use gloves when removing food and accessories after cooking as the oven and accessories will be very hot.</p></li><li><p class="p">Allow the turntable to cool before removing it from the appliance.</p></li><li><p class="p">Do not allow food or cleaner residue to accumulate on sealing surfaces of the appliance.</p></li><li><p class="p">Keep the inside and outside of the appliance clean.</p></li></ul><p class="p"><span class="emphasis bold">Cleaning</span></p><p class="p">Keep the oven clean inside and outside. Take special care to keep the inner door panel and the front frame free of food or grease build-up. Clean your oven weekly or more often, if needed.</p><ul class="itemizedlist"><li><p class="p">Abrasive cleansers, steel wool pads, gritty wash cloths, some paper towels, etc., can damage the control panel and the interior and exterior of the oven. </p></li></ul><p class="p"><span class="emphasis bold">Cleaning the Interior</span></p><p class="p">Use a damp cloth to clean the surfaces of the door and wipe out crumbs between the door and the frame. Remove greasy spatters with a soapy cloth then rinse and dry.</p><ul class="itemizedlist"><li><p class="p">Wipe spatters immediately with a wet paper towel, especially after cooking chicken or bacon.</p></li><li><p class="p">If steam accumulates inside or outside of the oven door, wipe the panels with a soft cloth.</p></li></ul><p class="p"><span class="emphasis bold">Cleaning the Exterior</span></p><p class="p">Clean the outside of the oven with soap and water. Rinse with clean water and dry with a soft cloth or paper towel.</p><ul class="itemizedlist"><li><p class="p">Do not allow the water to seep into the ventilation openings to prevent damage to the operating parts inside the oven.</p></li><li><p class="p">The door and door seals should be kept clean. Use only warm, soapy water, rinse then dry thoroughly.</p></li><li><p class="p">Frequently wipe metal parts with a damp cloth.</p></li></ul><p class="p"><span class="emphasis bold">Cleaning the Control Panel</span></p><p class="p">Open the door to prevent the oven from accidentally starting. Wipe with a damp cloth followed immediately by a dry cloth. Press <span class="key">STOP</span> or <span class="key">STOP/Cancel</span> after cleaning.</p><p class="p"><span class="emphasis bold">Cleaning the Accessories</span></p><p class="p">Wash the glass tray and rotating ring in mild, sudsy water. For heavily soiled areas, use a mild cleanser and scouring sponge. Dry completely before use.</p><ul class="itemizedlist"><li><p class="p">The glass tray and rotating ring are dishwasher safe.</p></li></ul></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_5"><span class="page-marker"></span></a><a href="#topic_6"><span class="page-marker"></span></a><a href="#topic_7"><span class="page-marker isCurrent"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

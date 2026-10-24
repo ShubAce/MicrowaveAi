@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="SMART FUNCTIONS"><meta id="Section_Title" name="Section_Title" content="LG ThinQ Application"><meta id="Topic_Title" name="Topic_Title" content="Installing LG ThinQ Application and Connecting an LG Appliance"><meta id="Topic_ID" name="Topic_ID" content="t_00101258_r4_20181228083655_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_3">SMART FUNCTIONS</a> &gt; <a class="bread-clumb-item" href="#section_14">LG ThinQ Application</a> &gt; Installing LG ThinQ Application and Connecting an LG Appliance</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Installing LG ThinQ Application and Connecting an LG Appliance</h2><div class="simplesect"><h3>Models with QR Code</h3><p class="p">Scan the QR code attached to the product using the camera or a QR code reader application on your smartphone.</p><div><div data-fileref="../../fig/t_00101258_r4/thinq_label_location_mwo_single-01.svg" data-filename="thinq_label_location_mwo_single-01.svg" data-delextention="thinq_label_location_mwo_single-01" data-isgif="0" class="graphic"><img src="./res/fig/t_00101258_r4/thinq_label_location_mwo_single-01.svg"></div></div></div><div class="simplesect"><h3>Models without QR Code</h3><ul class="procedure"><li><div class="step-contents"><p class="p">Search for and install the <span class="key">LG ThinQ</span> application from the Google Play Store or Apple App Store on a smartphone.</p></div></li><li><div class="step-contents"><p class="p">Run the <span class="key">LG ThinQ</span> application and sign in with your existing account or create an LG account to sign in.</p></div></li><li><div class="step-contents"><p class="p">Touch the add (<span class="icon icon_vaccumcleaner">~</span>) button on the <span class="key">LG ThinQ</span> application to connect your LG appliance. Follow the instructions in the application to complete the process.</p></div></li></ul></div><div class="note"><div class="note-title"><span><i class="note-icon"></i>Note</span></div><div class="note-body"><ul class="itemizedlist"><li><p class="p">To verify the Wi-Fi connection, check that the Wi-Fi indicator on the control panel is lit.</p></li><li><p class="p">The appliance supports 2.4 GHz Wi-Fi networks only. To check your network frequency, contact your Internet service provider or refer to your wireless router manual.</p></li><li><p class="p"><span class="key">LG ThinQ</span> is not responsible for any network connection problems or any faults, malfunctions, or errors caused by network connection.</p></li><li><p class="p">The surrounding wireless environment can make the wireless network service run slowly.</p></li><li><p class="p">If the distance between the appliance and the wireless router is too far, the signal strength becomes weak. It may take a long time to connect or installation may fail.</p></li><li><p class="p">If the appliance is having trouble connecting to the Wi-Fi network, it may be too far from the router. Purchase a Wi-Fi repeater (range extender) to improve the Wi-Fi signal strength.</p></li><li><p class="p">The network connection may not work properly depending on the Internet service provider.</p></li><li><p class="p">The Wi-Fi connection may not connect or may be interrupted because of the home network environment.</p></li><li><p class="p">The appliance cannot be connected due to problems with the wireless signal transmission. Unplug the appliance and wait about a minute before trying again.</p></li><li><p class="p">The wireless network name (SSID) should be a combination of English letters and numbers. (Do not use special characters.)</p></li><li><p class="p">Smartphone user interface (UI) may vary depending on the mobile operating system (OS) and the manufacturer.</p></li><li><p class="p">If the security protocol of the router is set to <span class="emphasis bold">WEP</span>, you may fail to set up the network. Please change it to other security protocols (<span class="emphasis bold">WPA2</span> is recommended) and connect the product again.</p></li><li><p class="p">To disable the Wi-Fi function, press and hold the <span class="key">Wi-Fi</span> button for 3 seconds. The Wi-Fi indicator will be turned off.</p></li><li><p class="p">To reconnect the appliance or add another user, press and hold the <span class="key">Wi-Fi</span> button for 3 seconds to temporarily turn it off. Run the <span class="key">LG ThinQ</span> application and follow the instructions in the application to connect the appliance.</p></li></ul></div></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_50"><span class="page-marker"></span></a><a href="#topic_51"><span class="page-marker isCurrent"></span></a><a href="#topic_52"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

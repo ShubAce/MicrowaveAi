@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="IMPORTANT SAFETY INSTRUCTIONS"><meta id="Section_Title" name="Section_Title" content="CAUTION"><meta id="Topic_Title" name="Topic_Title" content="Installation"><meta id="Topic_ID" name="Topic_ID" content="t_00006196_r5_20191101110515_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#preface_1">IMPORTANT SAFETY INSTRUCTIONS</a> &gt; <a class="bread-clumb-item" href="#section_3">CAUTION</a> &gt; Installation</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Installation</h2><ul class="itemizedlist"><li><p class="p">Install the appliance according to the installation requirements that are in this manual.</p></li><li><p class="p">Allow at least 8 cm from the front of the oven door to avoid accidental tipping of the appliance.</p></li><li><p class="p">The turntable must always be in place when you operate the appliance.</p></li><li><p class="p">Do not block an exhaust outlet that is located on the top, bottom or side of the appliance.</p></li><li><p class="p">Do not place any object (such as kitchen towels, napkins, etc.) between the appliance front face and the door.</p></li><li><p class="p">In order to avoid a hazard due to inadvertent resetting of the thermal cut-out, this appliance must not be supplied through an external switching device, such as a timer, or connected to a circuit that is regularly switched on and off by the utility.</p></li></ul></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_5"><span class="page-marker isCurrent"></span></a><a href="#topic_6"><span class="page-marker"></span></a><a href="#topic_7"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

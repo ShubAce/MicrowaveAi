@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="TROUBLESHOOTING"><meta id="Section_Title" name="Section_Title" content="Before Calling for Service"><meta id="Topic_Title" name="Topic_Title" content="Operation"><meta id="Topic_ID" name="Topic_ID" content="t_00126805_r1_20191104085547_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#appendix_1">TROUBLESHOOTING</a> &gt; <a class="bread-clumb-item" href="#section_17">Before Calling for Service</a> &gt; Operation</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Operation</h2><div class="troubleshooting"><div class="troubleshooting-title"><span class="troubleshooting-title-icon"><i class="fa fa-question-circle-o" aria-hidden="true"></i></span><p class="p">Microwave oven does not start</p></div><div class="troubleshooting-body"><div class="reason"><div class="reason-title">Cause</div><div class="reason-body"><p class="p">Power cord is unplugged, door is open. Or, cooking time is not set.</p></div></div><div class="solution"><div class="solution-title">Solution</div><div class="solution-body"><ul class="itemizedlist"><li><p class="p">Plug in power cord.</p></li><li><p class="p">Close oven door.</p></li><li><p class="p">Set cooking time.</p></li></ul></div></div></div><div class="troubleshooting-body"><div class="reason"><div class="reason-title">Cause</div><div class="reason-body"><p class="p">A fuse in your home may be blown or the circuit breaker tripped. Or the appliance is connected to a GFCI (Ground Fault Circuit Interrupter) outlet, and the outlet's circuit breaker has tripped.</p></div></div><div class="solution"><div class="solution-title">Solution</div><div class="solution-body"><ul class="itemizedlist"><li><p class="p">Check the main electrical box and replace the fuse or reset the circuit breaker. </p><p class="p">Do not increase fuse capacity. If the problem is a circuit overload, have it corrected by a qualified electrician. </p></li><li><p class="p">Reset the circuit breaker on the GFCI. If the problem persists, contact an electrician.</p></li></ul></div></div></div><div class="troubleshooting-title"><span class="troubleshooting-title-icon"><i class="fa fa-question-circle-o" aria-hidden="true"></i></span><p class="p">Arcing or Sparking</p></div><div class="troubleshooting-body"><div class="reason"><div class="reason-title">Cause</div><div class="reason-body"><p class="p">Utensils is not microwave safe. Or, operated the oven when it is empty.</p></div></div><div class="solution"><div class="solution-title">Solution</div><div class="solution-body"><ul class="itemizedlist"><li><p class="p">Use microwave-safe utensils. When in doubt, test utensils before use.</p></li><li><p class="p">Do not operate oven while it is empty.</p></li></ul></div></div></div><div class="troubleshooting-title"><span class="troubleshooting-title-icon"><i class="fa fa-question-circle-o" aria-hidden="true"></i></span><p class="p">Unevenly Cooked Foods</p></div><div class="troubleshooting-body"><div class="reason"><div class="reason-title">Cause</div><div class="reason-body"><p class="p">Utensils is not microwave safe. Or, cooking settings was wrong.</p></div></div><div class="solution"><div class="solution-title">Solution</div><div class="solution-body"><ul class="itemizedlist"><li><p class="p">Test utensils to make sure it is microwave safe.</p></li><li><p class="p">Do not cook without the glass tray.</p></li><li><p class="p">Turn or stir food while cooking.</p></li><li><p class="p">Defrost food completely before cooking.</p></li><li><p class="p">Use correct cook time and power level.</p></li></ul></div></div></div><div class="troubleshooting-title"><span class="troubleshooting-title-icon"><i class="fa fa-question-circle-o" aria-hidden="true"></i></span><p class="p">Overcooked Foods</p></div><div class="troubleshooting-body"><div class="reason"><div class="reason-title">Cause</div><div class="reason-body"><p class="p">Cooking settings and methods are wrong.</p></div></div><div class="solution"><div class="solution-title">Solution</div><div class="solution-body"><ul class="itemizedlist"><li><p class="p">Change cook time or power level.</p></li></ul></div></div></div><div class="troubleshooting-title"><span class="troubleshooting-title-icon"><i class="fa fa-question-circle-o" aria-hidden="true"></i></span><p class="p">Undercooked Foods</p></div><div class="troubleshooting-body"><div class="reason"><div class="reason-title">Cause</div><div class="reason-body"><p class="p">Utensils is not microwave safe. Or, cooking settings was wrong.</p></div></div><div class="solution"><div class="solution-title">Solution</div><div class="solution-body"><ul class="itemizedlist"><li><p class="p">Test that utensils is microwave safe.</p></li><li><p class="p">Defrost food completely before cooking.</p></li><li><p class="p">Change cook time or power level.</p></li><li><p class="p">Make sure that ventilation ports are not blocked.</p></li></ul></div></div></div></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_56"><span class="page-marker isCurrent"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

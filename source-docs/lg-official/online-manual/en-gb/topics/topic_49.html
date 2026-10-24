@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="OPERATION"><meta id="Section_Title" name="Section_Title" content="Cooking Guide"><meta id="Topic_Title" name="Topic_Title" content="Cooking Tips"><meta id="Topic_ID" name="Topic_ID" content="t_00006245_r2_20191101142714_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_2">OPERATION</a> &gt; <a class="bread-clumb-item" href="#section_13">Cooking Guide</a> &gt; Cooking Tips</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Cooking Tips</h2><p class="p">Carefully monitor the food in the microwave oven when it is cooked. Directions given in recipes to elevate, stir, etc., are the minimum steps recommended. If the food seems to be cooked unevenly, simply make the necessary adjustments to correct the problem.</p><ul class="itemizedlist"><li><p class="p"><span class="emphasis bold">Covering</span>: Cover the plate with a lid, parchment paper (not waxed paper) or cling plastic wrap for use in the microwave oven. A cover traps heat and steam, which help to cook the food more quickly.</p></li><li><p class="p"><span class="emphasis bold">Stirring</span>: Stir from the outside towards the center, as food at the outside of the dish heats more quickly.</p></li><li><p class="p"><span class="emphasis bold">Standing Time</span>: Standing time allows foods to finish cooking and also helps flavors blend and develop. Foods are often allowed to stand for 3 to 10 minutes after being removed from the oven. </p></li><li><p class="p"><span class="emphasis bold">Cooking Time</span>: Set the cooking time according to the temperature of the ingredients. Ice-cold ingredients take considerably longer to cook than room temperature ingredients.</p></li><li><p class="p"><span class="emphasis bold">Sprinkling</span>: Low-moisture foods such as roasts and vegetables should be sprinkled with water before cooking or covered to retain moisture.</p></li><li><p class="p"><span class="emphasis bold">Arranging</span>: The upper portion of thick foods will be cooked more quickly than the lower portion. Turn food over several times during cooking.</p></li><li><p class="p"><span class="emphasis bold">Piercing</span>: Pierce foods that are enclosed in a shell, skin or membrane before cooking to prevent them from bursting.</p><ul class="itemizedlist"><li><p class="p">Such foods include yolks and whites of eggs, clams, oysters, potatoes, and other whole vegetables and fruits.</p></li></ul></li><li><p class="p"><span class="emphasis bold">Shape of Food</span>: Microwaves penetrate only about 2 cm into food. Only the outer edge of food is cooked by microwave energy; the rest is cooked as the heat moves inward.</p><ul class="itemizedlist"><li><p class="p">Place the thickest portions of foods like meat, poultry or fish toward the outside of the utensils to help them cook more evenly.</p></li><li><p class="p">If possible, shape foods into thin rounds or rings.</p></li></ul></li><li><p class="p"><span class="emphasis bold">Density</span>: Light, porous food such as cakes and breads are cooked more quickly than heavy, dense foods such as roasts and casseroles. </p></li><li><p class="p"><span class="emphasis bold">Bones and Fat</span>: Bones conduct heat and fat cooks more quickly than meat. Take care with bony or fatty cuts of meat.</p></li><li><p class="p"><span class="emphasis bold">Quantity</span>: The more food you place in the oven, the longer the required cooking time.</p></li><li><p class="p"><span class="emphasis bold">Shielding</span>: Cover the corners of square dishes with strips of aluminum foil to prevent overcooking. Do not use too much foil, and make sure the foil is secured to the dish. If the foil gets too close to the oven walls during cooking, it can cause arcing.</p></li></ul></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_49"><span class="page-marker isCurrent"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="IMPORTANT SAFETY INSTRUCTIONS"><meta id="Section_Title" name="Section_Title" content="CAUTION"><meta id="Topic_Title" name="Topic_Title" content="Operation"><meta id="Topic_ID" name="Topic_ID" content="t_00006197_r4_20191101110524_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#preface_1">IMPORTANT SAFETY INSTRUCTIONS</a> &gt; <a class="bread-clumb-item" href="#section_3">CAUTION</a> &gt; Operation</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Operation</h2><ul class="itemizedlist"><li><p class="p">Do not touch the appliance (including the oven door, outer cabinet, rear cabinet, oven cavity, accessories and dishes) during grill mode, convection mode and auto cook operations. The temperature of accessible surfaces may be high when the appliance is operating. There is the danger of a burn unless wearing thick culinary gloves.</p></li><li><p class="p">Do not place an object(a book, a box, water bottle, vase etc.) on the appliance. The appliance may overheat or catch fire or the object may fall, causing injury to persons.</p></li><li><p class="p">Do not operate the appliance with the door open. It could result in harmful exposure to excessive microwave energy.</p></li><li><p class="p">Set the cooking times correctly. The small amounts of food require shorter cooking or heating time. Over cooking may result in the food catching on fire and subsequent damage to your appliance.</p></li><li><p class="p">Do not use recycled paper products. They may contain impurities which may cause sparks or fires when used in cooking.</p></li><li><p class="p">Do not cook food wrapped in paper towels or newspaper, unless your cook book contains instructions for the food you are cooking.</p></li><li><p class="p">Do not use newspaper in place of paper towels for cooking.</p></li><li><p class="p">Do not use the appliance to dry newspapers or clothes. They may catch fire.</p></li><li><p class="p">Do not cook eggs in their shell. Eggs in their shell and whole hard-boiled eggs should not be heated in microwave ovens since they can explode, even after microwave heating has ended. Pressure will build up inside the egg which will burst.</p></li><li><p class="p">Do not attempt deep fat frying in your appliance. This could result in a sudden boil over of the hot liquid.</p></li><li><p class="p">Pierce the skin of potatoes, apples or any such fruit or vegetables before cooking. They could burst.</p></li><li><p class="p">If smoke is observed (or emitted), switch off or unplug the appliance and keep the door closed in order to stifle any flame. </p></li><li><p class="p">Follow exact directions given by each manufacturer for their popcorn product.</p><ul class="itemizedlist"><li><p class="p">Never use a brown paper bag for popping corn.</p></li><li><p class="p">Never attempt to pop leftover kernels. </p></li><li><p class="p">Do not leave the appliance unattended while the corn is being popped.</p></li><li><p class="p">If corn fails to pop after the suggested times, discontinue cooking.</p></li><li><p class="p">Overcooking could result in the corn catching a fire.</p></li></ul></li><li><p class="p">The power connection may be achieved by having the plug accessible or by incorporating a switch in the fixed wiring in accordance with the wiring rules. Using improper plug or switch can cause an electric shock or a fire.</p></li><li><p class="p">All air vents should be kept clear during cooking. If air vents are covered during appliance operation the appliance may overheat.</p></li></ul></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_5"><span class="page-marker"></span></a><a href="#topic_6"><span class="page-marker isCurrent"></span></a><a href="#topic_7"><span class="page-marker"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

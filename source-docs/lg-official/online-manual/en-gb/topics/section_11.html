@@ -1,0 +1,33 @@
+<div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#chapter_2">OPERATION</a> &gt; Recipe</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Recipe</h2><div class="containd-topics"><dl><dt>Contains Topics</dt><dd><a href="#topic_30">Charcoal</a></dd><dd><a href="#topic_31">Indian Cuisine</a></dd><dd><a href="#topic_32">Rice Delight</a></dd><dd><a href="#topic_33">Chatpat Corner</a></dd><dd><a href="#topic_34">Cooking Aid</a></dd><dd><a href="#topic_35">Healthy Heart</a></dd><dd><a href="#topic_36">Indian Roti Basket</a></dd><dd><a href="#topic_37">Ghee</a></dd><dd><a href="#topic_38">Air Fry</a></dd><dd><a href="#topic_39">Low Calorie</a></dd><dd><a href="#topic_40">Child's Favourite</a></dd><dd><a href="#topic_41">Bakery</a></dd><dd><a href="#topic_42">Dairy Delight</a></dd><dd><a href="#topic_43">Pasteurized Milk</a></dd><dd><a href="#topic_44">Two Recipes for Beginners</a></dd><dd><a href="#topic_45">List of Ingredients</a></dd></dl></div></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>

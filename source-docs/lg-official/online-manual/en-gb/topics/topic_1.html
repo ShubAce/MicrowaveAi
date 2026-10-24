@@ -1,0 +1,33 @@
+<meta id="Chapter_Title" name="Chapter_Title" content="IMPORTANT SAFETY INSTRUCTIONS"><meta id="Section_Title" name="Section_Title" content="READ CAREFULLY AND KEEP FOR FUTURE REFERENCE"><meta id="Topic_Title" name="Topic_Title" content="Safety Messages"><meta id="Topic_ID" name="Topic_ID" content="t_00006669_r4_20181224102449_1"><div class="topic-inner"><div class="bread-clumb"><a class="bread-clumb-item" href="#">Top</a> &gt; <a class="bread-clumb-item" href="#preface_1">IMPORTANT SAFETY INSTRUCTIONS</a> &gt; <a class="bread-clumb-item" href="#section_1">READ CAREFULLY AND KEEP FOR FUTURE REFERENCE</a> &gt; Safety Messages</div><div class="swiper-container swipe-area-height-max"><div class="swiper-wrapper"><div class="swiper-slide"></div><div class="swiper-slide"><div class="topic-contents main-page"><h2>Safety Messages</h2><TABLE class="table-border-all" WIDTH="100%"><colgroup><col style="width:12.5%"><col style="width:87.5%"></colgroup><TBODY><TR><TD class="column-border-none cell_center cell_middle"><div><div data-fileref="../../fig/t_00006669_r4/warning_caution.eps" data-filename="warning_caution.eps" data-delextention="warning_caution" data-isgif="" class="graphic"><img src="./res/fig/t_00006669_r4/warning_caution.png"></div></div></TD><TD class="column-border-none"><p class="p">This symbol is displayed to indicate matters and operations that can cause risk. </p><p class="p">Read the part with this symbol carefully and follow the instructions in order to avoid risk.</p></TD></TR><TR><TD class="column-border-none cell_center cell_middle"><div><div data-fileref="../../fig/t_00006669_r4/warning_caution.eps" data-filename="warning_caution.eps" data-delextention="warning_caution" data-isgif="" class="graphic"><img src="./res/fig/t_00006669_r4/warning_caution.png"></div></div></TD><TD class="column-border-none cell_middle"><p class="p"><span class="emphasis bold">WARNING</span></p><p class="p">This indicates that the failure to follow the instructions can cause serious injury or death.</p></TD></TR><TR><TD class="column-border-none cell_center cell_middle"><div><div data-fileref="../../fig/t_00006669_r4/warning_caution.eps" data-filename="warning_caution.eps" data-delextention="warning_caution" data-isgif="" class="graphic"><img src="./res/fig/t_00006669_r4/warning_caution.png"></div></div></TD><TD class="column-border-none cell_left cell_middle"><p class="p"><span class="emphasis bold">CAUTION</span></p><p class="p">This indicates that the failure to follow the instructions can cause the minor injury or damage to the appliance.</p></TD></TR><TR><TD class="column-border-none"><div><div data-fileref="../../fig/t_00006669_r4/hot_surface.eps" data-filename="hot_surface.eps" data-delextention="hot_surface" data-isgif="" class="graphic"><img src="./res/fig/t_00006669_r4/hot_surface.png"></div></div></TD><TD class="column-border-none"><p class="p">This symbol is displayed to alert that hot surface. Do not touch surfaces during use in order to prevent burn hazard.</p></TD></TR></TBODY></TABLE></div></div><div class="swiper-slide"></div></div></div></div><div class="swiper-button-prev"></div><div class="swiper-button-next"></div><div class="pagination"><a href="#topic_1"><span class="page-marker isCurrent"></span></a></div><script>
+                        
+						$(function(){
+
+							swiper = null;
+							swiper = new Swiper('.swiper-container', {
+								initialSlide:1,
+								navigation: {
+									nextEl: '.swiper-button-next',
+									prevEl: '.swiper-button-prev',
+								}
+							});
+							// スライドが切り替わったとき
+							swiper.on('slideChange', function () {
+								console.log('slide changed. ' + this.activeIndex);
+								if (this.activeIndex === 0) {
+									location.hash = $.topicPageLink.prevLink();
+								}
+								else if (this.activeIndex === 2) {
+
+									var linkResult = $.topicPageLink.nextLink();
+
+									if(linkResult != null)
+									{
+										location.hash = $.topicPageLink.nextLink();
+									}
+
+								}
+							});
+						});
+
+					
+                    </script>
