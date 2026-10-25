@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { BUTTONS, type ButtonId } from "@/lib/buttons";
+import { HeaderTrim } from "./Floral";
 import { ButtonChip, LedBadge } from "./PanelBits";
 
 // Every dish the microwave makes by itself, grouped the way the panel buttons are, so she can
@@ -73,17 +74,18 @@ export function RecipeBook({ onAsk, onBack }: { onAsk: (question: string) => voi
           </svg>
         </button>
         <div>
-          <h1 className="text-[26px] font-extrabold leading-tight">रेसिपी किताब</h1>
-          <p className="text-[16px] text-baingan-soft">{total} चीज़ें, जो आपका माइक्रोवेव अपने-आप बनाता है</p>
+          <h1 className="text-[1.625rem] font-extrabold leading-tight">रेसिपी किताब</h1>
+          <p className="text-[1rem] text-baingan-soft">{total} चीज़ें, जो आपका माइक्रोवेव अपने-आप बनाता है</p>
         </div>
+        <HeaderTrim />
       </header>
 
-      <p className="mt-3 rounded-[18px] bg-white px-4 py-3 text-[18px] leading-snug shadow-[0_0_0_2px_var(--color-pista-line)]">
+      <p className="mt-3 rounded-[18px] bg-white px-4 py-3 text-[1.125rem] leading-snug shadow-[0_0_0_2px_var(--color-pista-line)]">
         किसी भी चीज़ को दबाइए, सखी पूरा तरीका बोलकर बताएगी।
       </p>
 
-      {failed && <p className="mt-6 text-center text-[19px]">किताब नहीं खुल पाई। इंटरनेट देखकर फिर कोशिश कीजिए।</p>}
-      {!groups && !failed && <p className="mt-6 text-center text-[19px] text-baingan-soft">किताब खुल रही है…</p>}
+      {failed && <p className="mt-6 text-center text-[1.1875rem]">किताब नहीं खुल पाई। इंटरनेट देखकर फिर कोशिश कीजिए।</p>}
+      {!groups && !failed && <p className="mt-6 text-center text-[1.1875rem] text-baingan-soft">किताब खुल रही है…</p>}
 
       <div className="mt-4 flex flex-col gap-3">
         {groups?.map((g) => {
@@ -97,18 +99,18 @@ export function RecipeBook({ onAsk, onBack }: { onAsk: (question: string) => voi
                 aria-expanded={isOpen}
                 className="flex w-full items-center gap-3 px-4 py-3 text-left"
               >
-                <span aria-hidden className="grid size-14 shrink-0 place-items-center rounded-full bg-genda-soft text-[30px]">{EMOJI[g.category] ?? "🍽️"}</span>
+                <span aria-hidden className="grid size-14 shrink-0 place-items-center rounded-full bg-genda-soft text-[1.875rem]">{EMOJI[g.category] ?? "🍽️"}</span>
                 <span className="min-w-0 flex-1">
-                  <span className="block text-[21px] font-extrabold leading-tight">{g.title}</span>
-                  <span className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[15px] leading-snug text-baingan-soft">
-                    <span>
+                  <span className="block text-[1.3125rem] font-extrabold leading-tight">{g.title}</span>
+                  <span className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[0.9375rem] leading-snug text-baingan-soft">
+                    <span className="whitespace-nowrap">
                       {buttonId && <ButtonChip id={buttonId} />}
                       {g.groupNo && <> → <LedBadge text={g.groupNo} /></>}
                     </span>
                     <span className="font-semibold">{g.items.length} चीज़ें</span>
                   </span>
                 </span>
-                <span aria-hidden className={`text-[22px] transition-transform ${isOpen ? "rotate-180" : ""}`}>⌄</span>
+                <span aria-hidden className={`text-[1.375rem] transition-transform ${isOpen ? "rotate-180" : ""}`}>⌄</span>
               </button>
               <AnimatePresence initial={false}>
                 {isOpen && (
@@ -127,8 +129,8 @@ export function RecipeBook({ onAsk, onBack }: { onAsk: (question: string) => voi
                           onClick={() => onAsk(`${item.hi} कैसे बनाते हैं?`)}
                           className="flex min-h-16 flex-col items-start justify-center gap-1 rounded-2xl bg-pista px-3 py-2 text-left active:bg-genda-soft"
                         >
-                          <span className="text-[18px] font-bold leading-tight">{item.hi}</span>
-                          <span className="text-[14px] text-baingan-soft">
+                          <span className="text-[1.125rem] font-bold leading-tight">{item.hi}</span>
+                          <span className="text-[0.875rem] text-baingan-soft">
                             {BUTTONS[buttonId]?.hint ?? ""} <LedBadge text={item.code} />
                           </span>
                         </button>

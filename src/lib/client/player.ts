@@ -9,11 +9,29 @@ import type { SegmentRole } from "../protocol";
 
 type Listener = { onStart?: (index: number) => void; onIdle?: () => void };
 
+interface Cue {
+  index: number;
+  when: number;
+}
+
 interface Clip {
   buffer: AudioBuffer;
   offset: number;
   duration: number;
   gain: number;
+}
+
+/** One answer's pieces. Calls for an answer that has since been replaced by a newer one do nothing,
+ *  so late audio from a previous question can never play under the current one. */
+export interface AnswerAudio {
+  /** What kind of piece `index` is, which decides the pause after it. */
+  setRole(index: number, role: SegmentRole): void;
+  add(index: number, data: ArrayBuffer): Promise<void>;
+  addBase64(index: number, b64: string): Promise<void>;
+  /** This piece has no audio; carry on without it. */
+  skip(index: number): void;
+  /** The answer has `count` pieces in total. */
+  setCount(count: number): void;
 }
 
 /** Pause after each kind of piece, in seconds at normal speed. */
@@ -23,6 +41,7 @@ const SILENCE = 0.012; // about -38 dBFS
 const TARGET_RMS = 0.16; // about -16 dBFS, the level Sarvam's clips sit around
 const FADE_IN = 0.012;
 const FADE_OUT = 0.03;
+const DONE = Number.MAX_SAFE_INTEGER; // `next` once a single replayed piece is scheduled
 
 /** Where the voice starts and ends, and how much to turn it up or down. */
 function analyse(buffer: AudioBuffer): Clip {
@@ -45,6 +64,13 @@ function analyse(buffer: AudioBuffer): Clip {
   return { buffer, offset, duration: end - offset, gain: Math.min(TARGET_RMS / rms, 0.95 / peak, 2) };
 }
 
+function base64ToBuffer(b64: string): ArrayBuffer {
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes.buffer;
+}
+
 export class Player {
   private ctx: AudioContext | null = null;
   private master: GainNode | null = null;
@@ -55,11 +81,18 @@ export class Player {
   private next = 0; // next piece to schedule
   private last: number | null = null; // index of the final piece, once known
   private nextAt = 0; // audio-clock time the next piece may start
-  private live: { src: AudioBufferSourceNode; timer: ReturnType<typeof setTimeout> }[] = [];
+  private live: { src: AudioBufferSourceNode; index: number | null; cue: Cue | null }[] = [];
+  private cues: Cue[] = []; // pieces waiting to be lit up
+  private cueFrame = 0;
   private playing = false;
-  private only: number | null = null; // replaying a single piece
+  private only: number | null = null; // replaying a single piece...
+  private resumeAt: number | null = null; // ...and then carrying on from here
+  private answerAt = 0; // the piece the answer is on: moves on only when a piece played in order ends
+  private halted = false; // she pressed रोकें: a tap on a card won't carry on with the rest
+  private answer = 0; // bumped for every new answer
   private pace = 1;
   private generation = 0; // bumped on every stop, so stale callbacks do nothing
+  private cache = new Map<string, Promise<Clip>>();
   private levels = new Float32Array(512);
   listener: Listener = {};
 
@@ -71,12 +104,22 @@ export class Player {
       this.analyser.fftSize = 512;
       this.master = this.ctx.createGain();
       this.master.connect(this.analyser).connect(this.ctx.destination);
+      // Phones pause the audio when the screen locks or a call comes in; pick it up again when she's back.
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") this.resume();
+      });
     }
-    if (this.ctx.state === "suspended") this.ctx.resume().catch(() => {});
+    this.resume();
     const s = this.ctx.createBufferSource();
     s.buffer = this.ctx.createBuffer(1, 1, 22050);
     s.connect(this.ctx.destination);
     s.start();
+  }
+
+  /** Safari can also report "interrupted", so resume from anything but running or closed. */
+  private resume() {
+    const state = this.ctx?.state as string | undefined;
+    if (state && state !== "running" && state !== "closed") this.ctx!.resume().catch(() => {});
   }
 
   /** Slower speech gets longer pauses too. */
@@ -84,95 +127,140 @@ export class Player {
     this.pace = pace > 0 ? pace : 1;
   }
 
-  /** Forget the previous answer and play the new one as its pieces arrive. */
-  start() {
+  /** Forget the previous answer and play a new one as its pieces arrive. */
+  start(): AnswerAudio {
     this.stop();
     this.clips.clear();
     this.roles.clear();
     this.failed.clear();
     this.last = null;
     this.only = null;
+    this.resumeAt = null;
+    this.answerAt = 0;
+    this.halted = false;
     this.next = 0;
-    this.nextAt = 0;
     this.playing = true;
-  }
+    const id = ++this.answer;
+    const current = () => id === this.answer;
 
-  /** What kind of piece `index` is, which decides the pause after it. */
-  setRole(index: number, role: SegmentRole) {
-    this.roles.set(index, role);
-  }
+    const add = async (index: number, data: ArrayBuffer) => {
+      if (!current() || !this.ctx) return;
+      let clip: Clip | null = null;
+      try {
+        clip = analyse(await this.ctx.decodeAudioData(data));
+      } catch {
+        // unreadable audio: the piece is skipped
+      }
+      if (!current()) return; // a newer answer started while this was decoding
+      if (clip) this.clips.set(index, clip);
+      else this.failed.add(index);
+      this.pump();
+    };
 
-  async add(index: number, data: ArrayBuffer) {
-    if (!this.ctx) return;
-    try {
-      this.clips.set(index, analyse(await this.ctx.decodeAudioData(data)));
-    } catch {
-      this.failed.add(index);
-    }
-    this.pump();
-  }
-
-  addBase64(index: number, b64: string) {
-    const bin = atob(b64);
-    const bytes = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-    return this.add(index, bytes.buffer);
-  }
-
-  skip(index: number) {
-    this.failed.add(index);
-    this.pump();
-  }
-
-  /** The answer has `count` pieces in total. */
-  setCount(count: number) {
-    this.last = count - 1;
-    this.pump();
+    return {
+      setRole: (index, role) => {
+        if (current()) this.roles.set(index, role);
+      },
+      add,
+      addBase64: (index, b64) => add(index, base64ToBuffer(b64)),
+      skip: (index) => {
+        if (!current()) return;
+        this.failed.add(index);
+        this.pump();
+      },
+      setCount: (count) => {
+        if (!current()) return;
+        this.last = count - 1;
+        this.pump();
+      },
+    };
   }
 
   has(index: number) {
     return this.clips.has(index);
   }
 
-  /** A short line that is not part of the answer. A filler ("जी, देखती हूँ") plays only if the answer
-   *  hasn't started yet; `now` (voice previews) stops whatever is playing and plays it straight away. */
-  playClip(source: string | ArrayBuffer, now = false) {
+  /** A short line that is not part of the answer: a clip's URL, or speech still being fetched.
+   *  A filler ("जी, देखती हूँ") plays only if the answer hasn't started yet. `now` (voice previews)
+   *  stops whatever is playing straight away and plays the line when it arrives, unless something
+   *  new started in the meantime. */
+  playClip(source: string | Promise<ArrayBuffer>, now = false) {
     if (!this.ctx) return;
     if (now) this.stop();
     const generation = this.generation;
-    const data = typeof source === "string" ? fetch(source).then((r) => r.arrayBuffer()) : Promise.resolve(source);
-    data
-      .then((d) => this.ctx!.decodeAudioData(d))
-      .then((buffer) => {
-        if (generation !== this.generation) return; // stopped meanwhile
+    const answer = this.answer;
+    this.decodeClip(source)
+      .then((clip) => {
+        if (generation !== this.generation || answer !== this.answer) return; // stopped or replaced meanwhile
         if (!now && (this.live.length || this.next > 0)) return; // the answer already began
-        this.schedule(analyse(buffer), null, "clip");
+        this.schedule(clip, null, "clip");
       })
       .catch(() => {}); // a missing clip isn't worth interrupting anything for
   }
 
+  /** Fetches and decodes clips ahead of time, so they still play if the internet drops later. */
+  preload(urls: string[]) {
+    if (!this.ctx) return;
+    for (const url of urls) this.decodeClip(url).catch(() => {});
+  }
+
+  private decodeClip(source: string | Promise<ArrayBuffer>): Promise<Clip> {
+    const ctx = this.ctx!;
+    if (typeof source !== "string") return source.then((d) => ctx.decodeAudioData(d)).then(analyse);
+    let clip = this.cache.get(source);
+    if (!clip) {
+      clip = fetch(source)
+        .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(`HTTP ${r.status}`))))
+        .then((d) => ctx.decodeAudioData(d))
+        .then(analyse);
+      this.cache.set(source, clip);
+      clip.catch(() => this.cache.delete(source)); // try again next time
+    }
+    return clip;
+  }
+
   replayAll() {
     this.stop();
+    this.answerAt = 0;
     this.only = null;
+    this.resumeAt = null;
+    this.halted = false;
     this.next = 0;
     this.playing = true;
     this.pump();
   }
 
+  /** She tapped a piece. A piece she has already heard is played again, and then the answer carries
+   *  on where it was; the piece being spoken or a later one plays from there on. Once the whole
+   *  answer has been heard (or she stopped it), only the tapped piece plays. */
   replay(index: number) {
     if (!this.clips.has(index)) return;
+    const resumeAt = this.answerAt;
+    const unfinished = !this.halted && (this.last === null || resumeAt <= this.last);
     this.stop();
-    this.only = index;
-    this.next = index;
     this.playing = true;
+    this.next = index;
+    if (unfinished && index >= resumeAt) {
+      this.only = null;
+      this.resumeAt = null;
+      this.answerAt = index;
+    } else {
+      this.only = index;
+      this.resumeAt = unfinished ? resumeAt : null;
+    }
     this.pump();
+  }
+
+  /** She pressed रोकें. */
+  halt() {
+    this.stop();
+    this.halted = true;
   }
 
   stop() {
     this.generation++;
     this.playing = false;
-    for (const { src, timer } of this.live) {
-      clearTimeout(timer);
+    for (const { src } of this.live) {
       src.onended = null;
       try {
         src.stop();
@@ -181,6 +269,9 @@ export class Player {
       }
     }
     this.live = [];
+    this.cues = [];
+    cancelAnimationFrame(this.cueFrame);
+    this.cueFrame = 0;
     this.nextAt = 0;
   }
 
@@ -205,16 +296,22 @@ export class Player {
       const clip = this.clips.get(this.next);
       if (!clip) break; // not arrived yet; it is scheduled the moment it does
       const index = this.next;
-      this.schedule(clip, index, this.roles.get(index) ?? "step");
-      this.next = this.only !== null ? Number.MAX_SAFE_INTEGER : index + 1;
+      this.schedule(clip, index, this.roles.get(index) ?? "step", this.only === null);
+      if (this.only === null) {
+        this.next = index + 1;
+      } else {
+        this.only = null;
+        this.next = this.resumeAt ?? DONE;
+        this.resumeAt = null;
+      }
     }
     this.maybeIdle();
   }
 
-  private schedule(clip: Clip, index: number | null, role: SegmentRole | "clip") {
+  /** `inOrder`: part of the answer playing through (not a single piece played again). */
+  private schedule(clip: Clip, index: number | null, role: SegmentRole | "clip", inOrder = false) {
     const ctx = this.ctx!;
-    const now = ctx.currentTime;
-    const when = Math.max(now + 0.03, this.nextAt);
+    const when = Math.max(ctx.currentTime + 0.03, this.nextAt);
     const end = when + clip.duration;
 
     const src = ctx.createBufferSource();
@@ -228,22 +325,42 @@ export class Player {
     src.start(when, clip.offset, clip.duration);
 
     const generation = this.generation;
-    const timer = setTimeout(() => {
-      if (generation === this.generation && index !== null) this.listener.onStart?.(index);
-    }, Math.max(0, (when - now) * 1000));
-    const entry = { src, timer };
+    const entry = { src, index, cue: index === null ? null : this.cue(index, when) };
     this.live.push(entry);
     src.onended = () => {
       this.live = this.live.filter((e) => e !== entry);
+      // A piece that ended before it was lit (the page was in the background) is never lit afterwards.
+      if (entry.cue) this.cues = this.cues.filter((c) => c !== entry.cue);
+      // Only a piece that played to its end moves the answer on (stop() clears onended first).
+      if (inOrder && index !== null) this.answerAt = Math.max(this.answerAt, index + 1);
       if (generation === this.generation) this.maybeIdle();
     };
     this.nextAt = end + PAUSE[role] / this.pace;
     debugLog({ index, role, when: +when.toFixed(3), duration: +clip.duration.toFixed(3), gain: +clip.gain.toFixed(2) });
   }
 
+  /** Lights up piece `index` when the audio clock reaches `when`. The audio clock, not a timer:
+   *  if the phone pauses the sound, the highlight waits with it. */
+  private cue(index: number, when: number): Cue {
+    const cue = { index, when };
+    this.cues.push(cue);
+    if (!this.cueFrame) this.cueFrame = requestAnimationFrame(this.tickCues);
+    return cue;
+  }
+
+  private tickCues = () => {
+    this.cueFrame = 0;
+    const now = this.ctx?.currentTime ?? 0;
+    while (this.cues.length && this.cues[0].when <= now + 0.02) {
+      const { index } = this.cues.shift()!;
+      this.listener.onStart?.(index);
+    }
+    if (this.cues.length) this.cueFrame = requestAnimationFrame(this.tickCues);
+  };
+
   private maybeIdle() {
     if (!this.playing || this.live.length) return;
-    const finished = this.only !== null ? this.next === Number.MAX_SAFE_INTEGER : this.last !== null && this.next > this.last;
+    const finished = this.next === DONE || (this.last !== null && this.next > this.last);
     if (!finished) return;
     this.playing = false;
     this.listener.onIdle?.();

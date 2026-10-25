@@ -76,6 +76,12 @@ function speakDisplay(raw: string): string {
   if (combi) return `${combi[1].toUpperCase() === "GC" ? "जी सी" : "सी सी"} ${combi[2]}`;
   const temp = s.match(/^(\d{2,3})\s*(°C|℃|°|C)$/i);
   if (temp) return `${temp[1]} डिग्री`;
+  const clock = s.match(/^(\d{1,2}):(\d{2})$/); // a time, e.g. 3:00 or 0:30
+  if (clock) {
+    const [min, sec] = [Number(clock[1]), Number(clock[2])];
+    if (!min) return `${sec} सेकंड`;
+    return sec ? `${min} मिनट ${sec} सेकंड` : `${min} मिनट`;
+  }
   const kg = s.match(/^(\d?)\.(\d)$/); // weights shown in kg, e.g. 0.4
   if (kg) {
     const grams = Number(`${kg[1] || 0}.${kg[2]}`) * 1000;
@@ -105,17 +111,48 @@ export function spokenPiece(role: SegmentRole, markup: string, { kind, step, isL
   return `${link}, ${text}`;
 }
 
+const FRACTION: Record<string, string> = {
+  "1/2": "आधा",
+  "1/4": "एक चौथाई",
+  "3/4": "तीन चौथाई",
+  "1/3": "एक तिहाई",
+  "2/3": "दो तिहाई",
+};
+
+const halves = (n: string) => (n === "1" ? "डेढ़" : n === "2" ? "ढाई" : `साढ़े ${n}`);
+const DECIMAL: Record<string, string> = { "0.5": "आधा", "0.25": "एक चौथाई", "0.75": "तीन चौथाई" };
+/** Words for amounts copied from a recipe ("0.5 कप"), so decimals are not read out digit by digit. */
+const AMOUNT_WORD = "(?=\\s*(?:कप|चम्मच|छोटा|छोटे|बड़ा|बड़े|कटोरी|गिलास|लीटर|किलो|टुकड़|हिस्स))";
+
+/** Amounts as people say them: "1/2 कप" → "आधा कप", "1 1/2" → "डेढ़", "0.5 कप" → "आधा कप". Other
+ *  "a/b" are choices ("2/3 मिनट" is two or three minutes) and become "या" later on. */
+function speakAmounts(text: string): string {
+  return text
+    .replace(/24\s*\/\s*7/g, "चौबीसों घंटे")
+    .replace(/(?<![\d/.])(\d+)\s+1\/2(?![\d/])/g, (_, n: string) => halves(n))
+    .replace(/(?<![\d/.])([123]\/[234])(?![\d/])(?!\s*(?:मिनट|सेकंड|घंटे))/g, (m) => FRACTION[m] ?? m)
+    .replace(new RegExp(`(?<![\\d.])(\\d+)\\.(\\d+)(?![\\d.])${AMOUNT_WORD}`, "g"), (m, a: string, b: string) =>
+      DECIMAL[m] ?? (b === "5" && a !== "0" ? halves(a) : m));
+}
+
 /** Text for the Hindi voice: buttons by their spoken names, no symbols the voice might read out. */
 export function toSpeech(markup: string): string {
-  return parseMarkup(markup)
-    .map((p) => {
-      if (p.kind === "button") return BUTTONS[p.id].spoken;
-      if (p.kind === "display") return speakDisplay(p.text);
-      return p.text;
-    })
-    .join("")
+  return speakAmounts(
+    parseMarkup(markup)
+      .map((p) => {
+        if (p.kind === "button") return BUTTONS[p.id].spoken;
+        if (p.kind === "display") return speakDisplay(p.text);
+        return p.text;
+      })
+      .join(""),
+  )
+    .replace(/(बटन|डायल|डिग्री)(\s+\1)+/g, "$1") // "[STOP] बटन" → "स्टॉप बटन"
+    // A unit after a time or weight on the display: "{3:00} मिनट" → "3 मिनट", "{1:30} मिनट" → "1 मिनट 30 सेकंड"
+    .replace(/(मिनट|सेकंड)(\s+(?:मिनट|सेकंड))+/g, "$1")
+    .replace(/(ग्राम|किलो)(\s+(?:ग्राम|किलो|kg|केजी))+/g, "$1")
     .replace(/\*+/g, "")
-    .replace(/[\/|→•]/g, " ")
+    .replace(/\s*\/\s*/g, " या ") // "घी/तेल" → "घी या तेल"
+    .replace(/[|→•]/g, " ")
     .replace(/\s+([,।?!])/g, "$1")
     .replace(/\s{2,}/g, " ")
     .trim();

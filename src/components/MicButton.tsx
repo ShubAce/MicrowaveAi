@@ -64,8 +64,8 @@ export function MicButton({ phase, level, onPress, compact = false }: {
           </svg>
         )}
       </button>
-      <p className={`${compact ? "mt-3 text-[19px]" : "mt-6 text-[28px]"} font-bold leading-tight`}>{label}</p>
-      {hint && !compact && <p className="mt-1 text-[18px] text-baingan-soft">{hint}</p>}
+      <p className={`${compact ? "mt-3 text-[1.1875rem]" : "mt-6 text-[1.75rem]"} font-bold leading-tight`}>{label}</p>
+      {hint && !compact && <p className="mt-1 text-[1.125rem] text-baingan-soft">{hint}</p>}
     </div>
   );
 }

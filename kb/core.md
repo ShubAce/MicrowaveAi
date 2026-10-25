@@ -772,7 +772,7 @@ Keep the appliance updated.
 **Settings**
 Allows you to set various options on the appliance and in the application.
 > **NOTE**
-> - In the following cases, you must update the network information for each appliance in the **LG ThinQ** application under **Device Cards** ~ **Settings** ~ **Change Network**.
+> - In the following cases, you must update the network information for each appliance in the **LG ThinQ** application under **Device Cards** → **Settings** → **Change Network**.
 >    - wireless router is changed
 >    - wireless router password is changed
 >    - Internet service provider is changed
@@ -787,7 +787,7 @@ Scan the QR code attached to the product using the camera or a QR code reader ap
 #### Models without QR Code (p. 292)
 1. Search for and install the **LG ThinQ** application from the Google Play Store or Apple App Store on a smartphone.
 2. Run the **LG ThinQ** application and sign in with your existing account or create an LG account to sign in.
-3. Touch the add (~) button on the **LG ThinQ** application to connect your LG appliance. Follow the instructions in the application to complete the process.
+3. Touch the add (+) button on the **LG ThinQ** application to connect your LG appliance. Follow the instructions in the application to complete the process.
 > **NOTE**
 > - To verify the Wi-Fi connection, check that the Wi-Fi indicator on the control panel is lit.
 > - The appliance supports 2.4 GHz Wi-Fi networks only. To check your network frequency, contact your Internet service provider or refer to your wireless router manual.

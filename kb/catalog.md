@@ -15,11 +15,11 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 - 1-10 Matar Kababs (मटर कबाब) | 0.2 ~ 0.4 kg | Multicook tawa, High rack
 - 1-11 Tandoori Mushrooms (तंदूरी मशरूम) | 0.2 ~ 0.5 kg | Multicook tawa, High rack
 - 1-12 Arbi Tandoori (तंदूरी अरबी) | 0.3 ~ 0.5 kg | Microwave safe glass bowl, Multicook tawa, High rack
-- 1-13 Malai Tikka (मलाई टिक्का) | 0.3 kg | Rotisserie
+- 1-13 Malai Tikka (चिकन मलाई टिक्का) | 0.3 kg | Rotisserie
 - 1-14 Corn Kababs (कॉर्न कबाब) | 0.2 ~ 0.4 kg | Multicook tawa, High rack
-- 1-15 Kastoori Kababs (कस्तूरी कबाब) | 0.2 ~ 0.4 kg | Multicook tawa, High rack
-- 1-16 Tikka Achaari (अचारी टिक्का) | 0.3 kg | Microwave safe glass bowl, Rotisserie
-- 1-17 Mahi Tikka (माही टिक्का) | 0.3 ~ 0.5 kg | Multicook tawa, High rack
+- 1-15 Kastoori Kababs (कस्तूरी चिकन कबाब) | 0.2 ~ 0.4 kg | Multicook tawa, High rack
+- 1-16 Tikka Achaari (अचारी मटन टिक्का) | 0.3 kg | Microwave safe glass bowl, Rotisserie
+- 1-17 Mahi Tikka (मछली टिक्का (माही टिक्का)) | 0.3 ~ 0.5 kg | Multicook tawa, High rack
 - 1-18 Tandoori Subzi (तंदूरी सब्ज़ी) | 0.3 ~ 0.5 kg | Microwave safe glass bowl, High rack, Multicook tawa
 - 1-19 Mix Veg Platter (मिक्स वेज प्लैटर) | 0.5 kg | Multicook tawa, High rack
 - 1-20 Fish Tandoori (फिश तंदूरी) | 0.5 kg | Multicook tawa, High rack
@@ -36,7 +36,7 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 - 1-31 Stuffed Mushroom (स्टफ्ड मशरूम) | 10 pcs. | Multicook tawa, High rack
 - 1-32 Tofu Tikka (टोफू टिक्का) | 0.5 kg | Multicook tawa, Low rack
 - 1-33 Stuffed Capsicum (स्टफ्ड कैप्सिकम) | 0.5 kg | Multicook Tawa, Low rack
-- 1-34 Putta Tikka (पुट्टा टिक्का) | 0.5 kg | Multicook tawa, Low rack
+- 1-34 Putta Tikka (मटन टिक्का (पुट्टा टिक्का)) | 0.5 kg | Multicook tawa, Low rack
 - 1-35 Reshmi Tikka (रेशमी टिक्का) | 0.5 kg | Multicook tawa, Low rack
 
 ## Charcoal/Indian Cuisine → group 2: Indian Cuisine
@@ -80,7 +80,7 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 - 2-38 Paneer Bhurji (पनीर भुर्जी) | 0.1 ~ 0.5 kg | Microwave safe bowl
 - 2-39 Scrambled Eggs (अंडा भुर्जी) | 0.2 ~ 0.4 kg | Microwave safe flat glass dish
 - 2-40 Mushroom Capsicum (मशरूम कैप्सिकम) | 0.5 kg | Microwave safe bowl
-- 2-41 Muri Ghanto (मुरी घंटो) | 0.5 kg | Microwave safe bowl
+- 2-41 Muri Ghanto (मुरी घंटो (आलू-शिमला मिर्च)) | 0.5 kg | Microwave safe bowl
 
 ## Charcoal/Indian Cuisine → group 3: Rice Delight
 - 3-1 Chicken Biryani (चिकन बिरयानी) | 0.1 ~ 0.5 kg | Microwave safe bowl
@@ -89,10 +89,10 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 - 3-4 Pineapple Fried Rice (पाइनएप्पल फ्राइड राइस) | 0.1 ~ 0.5 kg | Microwave safe bowl
 - 3-5 Veg Pulao (वेज पुलाव) | 0.1 ~ 0.5 kg | Microwave safe bowl
 - 3-6 Veg Tahiri (वेज तहरी) | 0.1 ~ 0.5 kg | Microwave safe bowl
-- 3-7 Pepper Rice (पेपर राइस) | 0.1 ~ 0.5 kg | Microwave safe bowl
+- 3-7 Pepper Rice (काली मिर्च वाले चावल) | 0.1 ~ 0.5 kg | Microwave safe bowl
 - 3-8 Zafrani Pulao (ज़ाफ़रानी पुलाव) | 0.1 ~ 0.5 kg | Microwave safe bowl
-- 3-9 Bengali Biryani (बंगाली बिरयानी) | 0.1 ~ 0.5 kg | Microwave safe bowl
-- 3-10 Khumb Pulao (खुंब पुलाव) | 0.1 ~ 0.5 kg | Microwave safe bowl
+- 3-9 Bengali Biryani (बंगाली मछली बिरयानी) | 0.1 ~ 0.5 kg | Microwave safe bowl
+- 3-10 Khumb Pulao (मशरूम पुलाव (खुंब पुलाव)) | 0.1 ~ 0.5 kg | Microwave safe bowl
 - 3-11 Tiranga Pulao (तिरंगा पुलाव) | 0.2 ~ 0.4 kg | Microwave safe bowl, Microwave safe glass bowl
 - 3-12 Egg Biryani (अंडा बिरयानी) | 0.1 ~ 0.3 kg | Microwave safe bowl
 - 3-13 Achari Chana Pulao (अचारी चना पुलाव) | 0.1 ~ 0.3 kg | Microwave safe bowl
@@ -106,7 +106,7 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 - 3-21 Mushroom Biryani (मशरूम बिरयानी) | 0.1 ~ 0.5 kg | Microwave safe glass bowl
 - 3-22 Yakhni Pulao (यखनी पुलाव) | 0.3 kg | Microwave safe glass bowl
 - 3-23 Palak Pulao (पालक पुलाव) | 0.1 ~ 0.3 kg | Microwave safe glass bowl
-- 3-24 Vangi Bhat (वांगी भात) | 0.1 ~ 0.5 kg | Microwave safe glass bowl
+- 3-24 Vangi Bhat (बैंगन भात (वांगी भात)) | 0.1 ~ 0.5 kg | Microwave safe glass bowl
 - 3-25 Zarda Pulao (ज़र्दा पुलाव) | 0.2 ~ 0.5 kg | Microwave safe glass bowl
 
 ## Charcoal/Indian Cuisine → group 4: Chatpat Corner
@@ -122,7 +122,7 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 - 4-10 Coconut Chutney (नारियल की चटनी) | 0.3 kg | Microwave safe glass bowl
 - 4-11 Til Ki Chutney (तिल की चटनी) | 0.2 kg | Microwave safe glass bowl
 - 4-12 Chana Chaat (चना चाट) | 0.1 ~ 0.4 kg | Microwave safe bowl
-- 4-13 Aloo Kand Chaat (आलू कंद चाट) | 0.1 ~ 0.3 kg | Microwave safe bowl
+- 4-13 Aloo Kand Chaat (आलू-जिमीकंद चाट) | 0.1 ~ 0.3 kg | Microwave safe bowl
 - 4-14 Amla Chutney (आंवला चटनी) | 0.5 kg | Microwave safe glass bowl
 - 4-15 Baingan Chutney (बैंगन की चटनी) | 0.5 kg | Microwave safe glass bowl
 
@@ -131,7 +131,7 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 - 5-2 Defrost Veg (सब्ज़ी डीफ्रॉस्ट) | 0.2 ~ 0.5 kg | Microwave safe bowl
 - 5-3 Defrost Non Veg (नॉन वेज डीफ्रॉस्ट) | 0.5 ~ 1.0 kg | Microwave safe bowl
 - 5-4 Dehumidification (नमी हटाना) | 0.3 kg | Microwave safe bowl
-- 5-5 Disinfect Aid (बर्तन कीटाणु रहित करना) | - | Microwave safe glass utensil, Empty cavity
+- 5-5 Disinfect Aid (कांच के बर्तन और ओवन कीटाणु-रहित करना) | - | Microwave safe glass utensil, Empty cavity
 - 5-6 Pizza Base (पिज़्ज़ा बेस) | 0.2 kg | Low rack, Multicook tawa
 - 5-7 Yeast Dough (यीस्ट वाला आटा) | 0.3 kg | Microwave safe glass bowl
 - 5-8 Boil Potatoes (आलू उबालना) | 0.3 kg | Glass tray
@@ -241,13 +241,13 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 - 1-26 Frozen Cheese Ball (फ्रोजन चीज़ बॉल) | 0.3 kg | Air fry tray
 - 1-27 Frozen Veg Momos (फ्रोजन वेज मोमोज़) | 8 pcs, 16 pcs | Air fry tray
 - 1-28 Frozen Popcorn Potato Fries (फ्रोजन पॉपकॉर्न पोटैटो फ्राइज़) | 0.2 kg | Air fry tray
-- 1-29 Frozen Regular Size Samosas (फ्रोजन बड़े समोसे) | 4 pcs, 8 pcs | Air fry tray
+- 1-29 Frozen Regular Size Samosas (फ्रोजन समोसे (नॉर्मल साइज़)) | 4 pcs, 8 pcs | Air fry tray
 - 1-30 Frozen Chicken Fries (फ्रोजन चिकन फ्राइज़) | 0.3 kg | Air fry tray
 - 1-31 Frozen Chicken Breast Strips (फ्रोजन चिकन ब्रेस्ट स्ट्रिप्स) | 5 pcs, 10 pcs | Air fry tray
 - 1-32 Frozen Chicken Popcorn (फ्रोजन चिकन पॉपकॉर्न) | 0.3 kg, 0.5 kg | Air fry tray
 - 1-33 Corn Aloo Tikki (कॉर्न आलू टिक्की) | 5 pcs | Air fry tray
 - 1-34 Soyabean Tikki (सोयाबीन टिक्की) | 5 pcs | Air fry tray
-- 1-35 Buff Vada (बफ वड़ा) | 5 pcs | Air fry tray
+- 1-35 Buff Vada (आलू-नारियल वड़ा (बफ वड़ा)) | 5 pcs | Air fry tray
 - 1-36 Punjabi Mathi (पंजाबी मठरी) | 5 pcs | Air fry tray
 - 1-37 Stuffed Aloo Patties (भरवां आलू पैटीज़) | 5 pcs | Air fry tray
 - 1-38 Sabudana Vada (साबूदाना वड़ा) | 5 pcs, 10 pcs | Air fry tray
@@ -261,7 +261,7 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 - 1-46 Methi Masala Vada (मेथी मसाला वड़ा) | 5 pcs | Air fry tray
 - 1-47 Gujiya (गुजिया) | 10 pcs | Air fry tray
 - 1-48 Fafda (फाफड़ा) | 0.2 kg | Air fry tray
-- 1-49 Thattai Snacks (थट्टई) | 6 pcs | Air fry tray
+- 1-49 Thattai Snacks (थट्टई (चावल की कुरकुरी मठरी)) | 6 pcs | Air fry tray
 - 1-50 Butter Cookies (बटर कुकीज़) | 0.4 kg | Air fry tray
 - 1-51 Chocolate Cookies (चॉकलेट कुकीज़) | 0.4 kg | Air fry tray
 - 1-52 Chicken 65 (चिकन 65) | 0.2 kg, 0.4 kg | Air fry tray
@@ -286,14 +286,14 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 - 2-9 Soyabean Curry (सोयाबीन करी) | 0.2 kg | Microwave safe bowl
 - 2-10 Spinach Dal (पालक दाल) | 0.1 ~ 0.3 kg | Microwave safe bowl
 - 2-11 Moong Dal (मूंग दाल) | 0.2 kg | Microwave safe bowl
-- 2-12 Leaf Rolls (लीफ रोल) | 0.2 ~ 0.4 kg | Microwave safe bowl, Microwave safe flat glass dish
+- 2-12 Leaf Rolls (पालक-पत्तागोभी रोल) | 0.2 ~ 0.4 kg | Microwave safe bowl, Microwave safe flat glass dish
 - 2-13 Fish Bharta (फिश भर्ता) | 0.1 ~ 0.5 kg | Microwave safe bowl, Microwave safe flat glass dish
 - 2-14 Sweet Corn Soup (स्वीट कॉर्न सूप) | 0.6 kg | Microwave safe glass bowl
 - 2-15 Mushroom Soup (मशरूम सूप) | 0.6 kg | Microwave safe glass bowl
-- 2-16 Wonton Soup (वॉन्टन सूप) | 0.6 kg | Microwave safe glass bowl
+- 2-16 Wonton Soup (वॉन्टन (मोमो) सूप) | 0.6 kg | Microwave safe glass bowl
 - 2-17 Chicken Shorba (चिकन शोरबा) | 0.6 kg | Microwave safe glass bowl
 - 2-18 Tamatar Shorba (टमाटर शोरबा) | 0.6 kg | Microwave safe glass bowl
-- 2-19 Corn Basil and Fusili Soup (कॉर्न बेसिल फ्यूसिली सूप) | 0.6 kg | Microwave safe glass bowl
+- 2-19 Corn Basil and Fusili Soup (कॉर्न-बेसिल पास्ता सूप) | 0.6 kg | Microwave safe glass bowl
 
 ## Kids'/Dairy Delight → group 1: Child's Favourite
 - 1-1 Corn Chaat (कॉर्न चाट) | 0.1 ~ 0.3 kg | Microwave safe bowl
@@ -306,10 +306,10 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 - 1-8 Chocolate Balls (चॉकलेट बॉल्स) | 0.3 kg | Microwave safe glass bowl
 - 1-9 Strawberry Custard (स्ट्रॉबेरी कस्टर्ड) | 0.5 kg | Microwave safe bowl
 - 1-10 Veg Burger (वेज बर्गर) | 0.1 ~ 0.3 kg | Multicook tawa, High rack
-- 1-11 Choco Bars (चोको बार) | 0.2 kg | Microwave safe glass bowl, Microwave safe flat glass dish
-- 1-12 Mushroom and Pepper Pizza (मशरूम और पेपर पिज़्ज़ा) | 0.3 kg | Multicook tawa, Low rack
+- 1-11 Choco Bars (चॉकलेट ओट्स बार) | 0.2 kg | Microwave safe glass bowl, Microwave safe flat glass dish
+- 1-12 Mushroom and Pepper Pizza (मशरूम और शिमला मिर्च पिज़्ज़ा) | 0.3 kg | Multicook tawa, Low rack
 - 1-13 Cheese Bread Delight (चीज़ ब्रेड डिलाइट) | 8 pcs | High rack
-- 1-14 Noodle Rosti (नूडल रोस्टी) | 0.2 kg | Microwave safe glass bowl, Multicook tawa, High rack
+- 1-14 Noodle Rosti (नूडल्स टिक्की (नूडल रोस्टी)) | 0.2 kg | Microwave safe glass bowl, Multicook tawa, High rack
 - 1-15 Bread Rolls (ब्रेड रोल) | 10 pcs | Microwave tawa, High rack
 - 1-16 Apple Custard (एप्पल कस्टर्ड) | 0.1 ~ 0.3 kg | Microwave safe glass bowl
 - 1-17 Dhokla (ढोकला) | 0.3 kg | Microwave safe flat glass dish, Microwave safe bowl
@@ -323,7 +323,7 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 
 ## Kids'/Dairy Delight → group 2: Bakery
 - 2-1 Chocolate Cake (चॉकलेट केक) | 0.4 kg | Metal cake tin, Low rack
-- 2-2 Lamington Cake (लैमिंगटन केक) | 0.4 kg | Low rack, Metal cake tin, Microwave safe bowl
+- 2-2 Lamington Cake (चॉकलेट-नारियल केक (लैमिंगटन)) | 0.4 kg | Low rack, Metal cake tin, Microwave safe bowl
 - 2-3 Doughnuts (डोनट्स) | 0.2 kg | Multicook tawa, Low rack
 - 2-4 Nan Khatai (नानखटाई) | 0.4 kg | Multicook tawa, Low rack
 - 2-5 Whole Wheat Cookies (आटे की कुकीज़) | 0.3 kg | Multicook tawa, Low rack
@@ -335,13 +335,13 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 - 2-11 Swiss Roll (स्विस रोल) | 0.2 kg | Multicook tawa, Low rack
 - 2-12 Patties (पैटीज़) | 3 pc | Multicook tawa, Low rack, High rack
 - 2-13 Jeera Biscuits (जीरा बिस्किट) | 0.2 kg | Low rack, Multicook tawa
-- 2-14 Pinwheel Cookies (पिनव्हील कुकीज़) | 0.2 kg | Multicook tawa, Low rack
+- 2-14 Pinwheel Cookies (फिरकी कुकीज़ (पिनव्हील)) | 0.2 kg | Multicook tawa, Low rack
 - 2-15 Brownie (ब्राउनी) | 0.3 kg | Low rack, Metal cake tin
 - 2-16 Muffins (मफिन) | 0.3 kg | Low rack, Metal muffin tray
 - 2-17 Walnut Cake (अखरोट केक) | 0.25 kg | Metal cake tin, Low rack
 - 2-18 Carrot Cake (गाजर केक) | 0.3 kg | Metal cake tin, Low rack
 - 2-19 Masala Biscuits (मसाला बिस्किट) | 0.2 kg | Low rack, Multicook tawa
-- 2-20 Cheese Straw (चीज़ स्ट्रॉ) | 0.2 kg | Multicook tawa, Low rack
+- 2-20 Cheese Straw (चीज़ स्टिक्स (चीज़ स्ट्रॉ)) | 0.2 kg | Multicook tawa, Low rack
 - 2-21 Straw-Berry Cake (स्ट्रॉबेरी केक) | 0.25 kg | Metal cake tin, Low rack
 - 2-22 Caramel Cake (कैरामल केक) | 0.25 kg | Metal cake tin, Low rack
 - 2-23 Tuti-Fruti Cake (टूटी फ्रूटी केक) | 0.25 kg | Metal cake tin, Low rack
@@ -353,7 +353,7 @@ Every auto-cook menu, grouped by panel button. Line format: code, English name (
 
 ## Kids'/Dairy Delight → group 3: Dairy Delight
 - 3-1 Paneer (पनीर बनाना) | 0.5 kg | Microwave safe glass bowl
-- 3-2 Masala Paneer (मसाला पनीर) | 0.5 kg | Microwave safe glass bowl
+- 3-2 Masala Paneer (मसाला पनीर (दूध से बनाना)) | 0.5 kg | Microwave safe glass bowl
 - 3-3 Curd (दही जमाना) | 0.5 kg | Microwave safe glass bowl
 - 3-4 Flavoured Yoghurt (फ्लेवर्ड योगर्ट) | 0.6 kg | Microwave safe glass bowl, Low rack
 

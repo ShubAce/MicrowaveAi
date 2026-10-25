@@ -3,7 +3,8 @@ import { isButtonId } from "@/lib/buttons";
 import type { AskEvent, HistoryTurn } from "@/lib/protocol";
 import { answerQuestion } from "@/lib/server/answer";
 import { RECIPES } from "@/lib/server/kb";
-import { safePace, safeVoice, transcribe } from "@/lib/server/sarvam";
+import { safePace, safeVoice } from "@/lib/server/sarvam";
+import { hear } from "@/lib/server/voice";
 
 export const maxDuration = 60;
 
@@ -63,8 +64,9 @@ export async function POST(req: Request) {
           const filename = audio instanceof File && audio.name ? audio.name : "question.webm";
           const t0 = Date.now();
           try {
-            question = await transcribe(audio, filename, req.signal);
-            console.log(`heard ${JSON.stringify({ ms: Date.now() - t0, bytes: audio.size, type: audio.type })}`);
+            const heard = await hear(audio, filename, req.signal);
+            question = heard.text;
+            console.log(`heard ${JSON.stringify({ by: heard.by, ms: Date.now() - t0, bytes: audio.size, type: audio.type })}`);
           } catch (e) {
             console.error("speech-to-text failed:", (e as Error).message);
             emit({ type: "error", code: "stt_failed", message: "speech-to-text failed" });

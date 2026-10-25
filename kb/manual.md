@@ -3945,22 +3945,22 @@ Select: press **Healthy Heart**, then turn the dial to **26**.
 - **Weight Limit**: 1 pc
 - **Utensil**: Multicook tawa, High rack
 **Ingredients**
-| Ingredients | Ingredients | Weight |
-|---|---|---|
-| For Flax Seed Uttapam | Weight Limit | 0.3 kg |
-| For Flax Seed Uttapam | Semolina (sooji) flour | 0.5 cup |
-| For Flax Seed Uttapam | Flax seed flour | 0.5 cup |
-| For Flax Seed Uttapam | Bengal g flour (besan) | 2 tbsps |
-| For Flax Seed Uttapam | Lemon juice | 1 tsp |
-| For Flax Seed Uttapam | Baking powder | 1 pinch |
-| For Flax Seed Uttapam | Salt | As per taste |
-| For Flax Seed Uttapam | Oil (for greasing and cooking) | 0.25 tsp |
-| To be mixed into a Topping | Chopped onions | 0.25 cup |
-| To be mixed into a Topping | Chopped tomatoes | 0.25 cup |
-| To be mixed into a Topping | Chopped capsicum | 0.25 cup |
-| To be mixed into a Topping | Finely chopped green chillies | 1 tsp |
-| To be mixed into a Topping | Finely chopped coriander (dhania) | 2 tbsps |
-| To be mixed into a Topping | Salt | As per taste |
+(amounts for 0.3 kg)
+- For Flax Seed Uttapam:
+  - Semolina (sooji) flour: 0.5 cup
+  - Flax seed flour: 0.5 cup
+  - Bengal g flour (besan): 2 tbsps
+  - Lemon juice: 1 tsp
+  - Baking powder: 1 pinch
+  - Salt: As per taste
+  - Oil (for greasing and cooking): 0.25 tsp
+- To be mixed into a Topping:
+  - Chopped onions: 0.25 cup
+  - Chopped tomatoes: 0.25 cup
+  - Chopped capsicum: 0.25 cup
+  - Finely chopped green chillies: 1 tsp
+  - Finely chopped coriander (dhania): 2 tbsps
+  - Salt: As per taste
 **Instructions**
 1. Combine the semolina flour, flax seed flour, besan and 0.5 cup of water in a deep bowl. Mix well using a whisk. Cover it with a lid and keep aside for 15 minutes.
 2. Add the lemon juice, baking soda, 5 tbsps of water and salt and mix well.
@@ -4502,6 +4502,19 @@ Select: press **Indian Roti Basket/Ghee** until the display shows **1**, then tu
 - **Weight Limit**: 2 pcs
 - **Utensil**: Multicook tawa, High rack
 **Ingredients**
+(amounts for 2 pcs)
+- For Dough:
+  - Whole wheat flour(aata): 2 cups
+  - Desi ghee: 1 tbsp + 1 tsp
+  - Salt: A pinch
+  - Water (to knead dough): 1 cup (200 ml)
+- For Stuffing:
+  - Boiled and mashed potato: 1 cup
+  - Chopped green chilli (deseeded): 1 cup
+  - Boiled and grated gobhi: 3 nos.
+  - Chopped coriander leaves: 2 tbsp
+  - Salt, Red chilli powder, Garam masala: As per taste
+  - Anardana powder: 1 tsp
 **Instructions**
 1. In a bowl, take whole wheat flour, salt and 1 tbsp desi ghee. Rub with hands. Gradually add water and knead a soft dough. Add 1 tsp desi ghee and knead again. Cover with a muslin cloth and leave for some time.
 2. In another bowl take all the ingredients of stuffing and mix well.
@@ -5664,7 +5677,7 @@ Select: press **Air Fry/Low Calorie** until the display shows **1**, then turn t
   - Powered sugar: 1 tsp
   - Dry active yeast: 1 tsp
   - Butter (melted): 50 g
-  - Warm water (38 7 – 42 7): 0.25 cup
+  - Warm water (38 ℃ – 42 ℃): 0.25 cup
 **Instructions**
 1. Activation of yeast - In a bowl, take warm water, powdered sugar, and yeast. Mix well, cover, and leave for around 10 minutes.
 2. In another bowl, take maida and butter, mix them, then add the activated yeast and knead the dough.
@@ -5684,7 +5697,7 @@ Select: press **Air Fry/Low Calorie** until the display shows **1**, then turn t
   - Dry active yeast: 1 tsp
   - Garlic cloves (crushed): 4 nos.
   - Butter (melted): 40 g
-  - Warm water (38 7 – 42 7): 0.25 cup
+  - Warm water (38 ℃ – 42 ℃): 0.25 cup
 - For Coating:
   - Butter (melted): 1 tbsp
   - Garlic cloves (crushed): 2 nos.
@@ -7633,7 +7646,7 @@ Keep the appliance updated.
 **Settings**
 Allows you to set various options on the appliance and in the application.
 > **NOTE**
-> - In the following cases, you must update the network information for each appliance in the **LG ThinQ** application under **Device Cards** ~ **Settings** ~ **Change Network**.
+> - In the following cases, you must update the network information for each appliance in the **LG ThinQ** application under **Device Cards** → **Settings** → **Change Network**.
 >    - wireless router is changed
 >    - wireless router password is changed
 >    - Internet service provider is changed
@@ -7648,7 +7661,7 @@ Scan the QR code attached to the product using the camera or a QR code reader ap
 #### Models without QR Code (p. 292)
 1. Search for and install the **LG ThinQ** application from the Google Play Store or Apple App Store on a smartphone.
 2. Run the **LG ThinQ** application and sign in with your existing account or create an LG account to sign in.
-3. Touch the add (~) button on the **LG ThinQ** application to connect your LG appliance. Follow the instructions in the application to complete the process.
+3. Touch the add (+) button on the **LG ThinQ** application to connect your LG appliance. Follow the instructions in the application to complete the process.
 > **NOTE**
 > - To verify the Wi-Fi connection, check that the Wi-Fi indicator on the control panel is lit.
 > - The appliance supports 2.4 GHz Wi-Fi networks only. To check your network frequency, contact your Internet service provider or refer to your wireless router manual.

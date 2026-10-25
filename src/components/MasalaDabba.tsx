@@ -27,8 +27,8 @@ export function MasalaDabba({ tiles, onPick }: { tiles: Tile[]; onPick: (t: Tile
           style={{ left: `${x - 15.5}%`, top: `${y - 15.5}%`, background: color }}
           className="absolute flex size-[31%] flex-col items-center justify-center rounded-full shadow-[0_0_0_3px_#eef0f3,0_3px_0_4px_#aeb6c0,inset_0_5px_10px_rgb(0_0_0/0.13)] transition-transform active:scale-95"
         >
-          <span aria-hidden className="text-[30px] leading-none">{tile.emoji}</span>
-          <span className="mt-1 px-1 text-center text-[16px] font-bold leading-[1.1] text-baingan">{tile.label}</span>
+          <span aria-hidden className="text-[1.875rem] leading-none">{tile.emoji}</span>
+          <span className="mt-1 px-1 text-center text-[1rem] font-bold leading-[1.1] text-baingan">{tile.label}</span>
         </button>
       ))}
     </div>

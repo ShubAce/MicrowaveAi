@@ -76,6 +76,7 @@ export async function startRecording({ onLevel, onAutoStop }: {
     if ((heardSpeech && quietFor > SILENCE_AFTER_SPEECH_MS)
         || (!heardSpeech && now - started > GIVE_UP_WITHOUT_SPEECH_MS)
         || now - started > MAX_MS) {
+      clearInterval(timer); // say it once; the app stops or cancels this recorder
       onAutoStop();
     }
   }, 50);
@@ -92,7 +93,7 @@ export async function startRecording({ onLevel, onAutoStop }: {
   return {
     stop: () =>
       new Promise<Recording>((resolve) => {
-        if (finished) return;
+        if (finished) return resolve({ blob: new Blob([], { type: mimeType }), filename: `question.${ext}`, heardSpeech: false });
         recorder.onstop = () => {
           cleanup();
           resolve({ blob: new Blob(chunks, { type: recorder.mimeType || mimeType }), filename: `question.${ext}`, heardSpeech });

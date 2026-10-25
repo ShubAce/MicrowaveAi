@@ -1,9 +1,10 @@
 // Records the short spoken lines with Sarvam, once, into public/:
 //   audio/<voice>/<clip>.mp3        fillers and problem messages, for every voice in settings
 //   tiles/<voice>/<tile>-<n>.mp3    the quick answers, for the default voice
-// Existing files are kept; pass --force to record again (e.g. after changing the words).
+// Existing files are kept unless their words changed (scripts/audio-words.json remembers what each
+// file says); pass --force to record everything again.
 // Usage: npx tsx --env-file=.env scripts/make_audio.mts [--force]
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import { CLIPS, type ClipName } from "../src/lib/clips";
 import { segmentsOf, speechFor } from "../src/lib/segments";
@@ -12,6 +13,8 @@ import { TILES } from "../src/lib/tiles";
 import { DEFAULT_PACE, DEFAULT_VOICE, VOICES } from "../src/lib/voices";
 
 const force = process.argv.includes("--force");
+const WORDS = "scripts/audio-words.json";
+const words: Record<string, string> = existsSync(WORDS) ? JSON.parse(readFileSync(WORDS, "utf8")) : {};
 const jobs: { file: string; text: string; voice: string }[] = [];
 
 for (const { id: voice } of VOICES) {
@@ -25,7 +28,7 @@ for (const tile of TILES) {
   }
 }
 
-const todo = jobs.filter((j) => force || !existsSync(j.file));
+const todo = jobs.filter((j) => force || !existsSync(j.file) || (words[j.file] ?? j.text) !== j.text);
 console.log(`${todo.length} of ${jobs.length} files to record`);
 let done = 0;
 let failed = 0;
@@ -35,6 +38,7 @@ async function worker() {
       const b64 = await speak(job.text, job.voice, DEFAULT_PACE);
       mkdirSync(dirname(job.file), { recursive: true });
       writeFileSync(job.file, Buffer.from(b64, "base64"));
+      words[job.file] = job.text;
       done++;
     } catch (e) {
       failed++;
@@ -43,4 +47,6 @@ async function worker() {
   }
 }
 await Promise.all([worker(), worker(), worker(), worker()]);
+for (const j of jobs) if (existsSync(j.file)) words[j.file] ??= j.text;
+writeFileSync(WORDS, JSON.stringify(Object.fromEntries(Object.entries(words).sort()), null, 1) + "\n");
 console.log(`recorded ${done}, failed ${failed}`);

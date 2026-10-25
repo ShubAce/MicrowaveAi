@@ -1,5 +1,5 @@
 // Turns a question into a streamed, spoken answer:
-// retrieve recipes → stream Gemini JSON → emit each finished piece → speak it with Sarvam.
+// retrieve recipes → stream Gemini JSON → emit each finished piece → speak it (Sarvam, or Gemini if Sarvam fails).
 
 import { Allow, parse } from "partial-json";
 import { isButtonId } from "../buttons";
@@ -8,7 +8,7 @@ import type { Answer, AskEvent, AskSettings, HistoryTurn, Segment, SegmentRole }
 import { streamWithFallback, type GeminiBody } from "./gemini";
 import { ANSWER_SCHEMA, FIELD_ORDER, SYSTEM_INSTRUCTION } from "./prompt";
 import { findRecipes } from "./retrieve";
-import { speak } from "./sarvam";
+import { say as speakPiece } from "./voice";
 
 const MAX_HISTORY = 6;
 
@@ -69,6 +69,7 @@ export async function answerQuestion({ question, history, settings, emit, signal
   let stepsSent = 0;
   const sent = new Set<SegmentRole>();
   const speaking: Promise<void>[] = [];
+  const voices = new Set<string>();
 
   let kind: Answer["kind"] | undefined;
   const say = (role: SegmentRole, markup: string, step?: number, isLast = false) => {
@@ -77,9 +78,15 @@ export async function answerQuestion({ question, history, settings, emit, signal
     emit({ type: "segment", segment });
     if (!withAudio) return;
     speaking.push(
-      speak(spokenPiece(role, markup, { kind, step, isLast }), settings.voice, settings.pace, signal)
-        .then((b64) => emit({ type: "audio", index: segment.index, mime: "audio/mpeg", b64 }))
-        .catch(() => emit({ type: "audio_error", index: segment.index })),
+      speakPiece(spokenPiece(role, markup, { kind, step, isLast }), settings.voice, settings.pace, signal)
+        .then(({ b64, mime, by }) => {
+          voices.add(by);
+          emit({ type: "audio", index: segment.index, mime, b64 });
+        })
+        .catch((e: Error) => {
+          console.error(`text-to-speech failed for piece ${segment.index}: ${e.message}`);
+          emit({ type: "audio_error", index: segment.index });
+        }),
     );
   };
 
@@ -139,7 +146,7 @@ export async function answerQuestion({ question, history, settings, emit, signal
   await Promise.all(speaking);
   const ms = Date.now() - started;
   // One line per question in the server log (Vercel → Logs), to spot slow models or missed recipes.
-  console.log(`answer ${JSON.stringify({ model: result.model, firstWordsMs: firstWords, totalMs: ms, pieces: index,
+  console.log(`answer ${JSON.stringify({ model: result.model, voice: [...voices].join("+"), firstWordsMs: firstWords, totalMs: ms, pieces: index,
     kind: answer.kind, menu: answer.menu ? `${answer.menu.button} ${answer.menu.code}` : null,
     attached: recipes.map((r) => `${r.category} ${r.code}`) })}`);
   emit({ type: "done", answer, model: result.model, ms });

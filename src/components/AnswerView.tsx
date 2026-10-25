@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { useEffect } from "react";
 import { accessoryName } from "@/lib/markup";
 import type { Answer, Segment } from "@/lib/protocol";
+import { StepMarigold, TitleFlourish } from "./Floral";
 import { StepText } from "./PanelBits";
 import { StepPicture } from "./StepPicture";
 
@@ -39,28 +40,37 @@ export function AnswerView({ state, onReplay, onSuggestion }: {
   const closing = segments.find((s) => s.role === "closing");
   const waiting = !answer && !error;
 
-  // Keep the piece being spoken on screen.
+  // Keep the piece being spoken on screen, between the sticky header and the fixed footer: all of it
+  // when it fits, otherwise its bottom (the picture and what to press) with the start of its text
+  // tucked under the header, since she is hearing that part anyway.
   useEffect(() => {
     if (active === null) return;
-    document.querySelector(`[data-seg="${active}"]`)?.scrollIntoView({ block: "center", behavior: "smooth" });
+    const piece = document.querySelector(`[data-seg="${active}"]`);
+    if (!piece) return;
+    const top = document.querySelector("[data-bar=top]")?.getBoundingClientRect().bottom ?? 0;
+    const bottom = document.querySelector("[data-bar=bottom]")?.getBoundingClientRect().top ?? window.innerHeight;
+    const r = piece.getBoundingClientRect();
+    const by = r.height <= bottom - top - 16 ? r.top - top - 8 : r.bottom - bottom + 8;
+    window.scrollBy({ top: by, behavior: "smooth" });
   }, [active]);
 
   return (
     <div className="flex flex-col gap-5 pb-4">
       {question && (
         <div className="ml-auto max-w-[88%] rounded-[22px] rounded-br-md bg-rani-soft px-4 py-3">
-          <p className="text-[16px] font-semibold text-rani-deep">आपने पूछा</p>
-          <p className="text-[21px] leading-snug">{question}</p>
+          <p className="text-[1rem] font-semibold text-rani-deep">आपने पूछा</p>
+          <p className="text-[1.3125rem] leading-snug">{question}</p>
         </div>
       )}
 
-      {title && <h1 className="text-[30px] font-extrabold leading-[1.15]">{title}</h1>}
+      {title && <h1 className="text-[1.875rem] font-extrabold leading-[1.15]">{title}</h1>}
+      {title && <TitleFlourish />}
 
       {intro && (
         <p
           data-seg={intro.index}
           onClick={() => onReplay(intro.index)}
-          className={`rounded-2xl text-[22px] leading-[1.55] ${active === intro.index ? "bg-genda-soft px-3 py-2" : ""}`}
+          className={`rounded-2xl text-[1.375rem] leading-[1.55] ${active === intro.index ? "bg-genda-soft px-3 py-2" : ""}`}
         >
           <StepText markup={intro.markup} />
         </p>
@@ -78,13 +88,12 @@ export function AnswerView({ state, onReplay, onSuggestion }: {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25 }}
                 onClick={() => onReplay(s.index)}
+                aria-current={on ? "step" : undefined}
                 className={`cursor-pointer rounded-[20px] border-2 px-3 py-3 transition-colors ${on ? "border-genda bg-genda-soft" : "border-pista-line bg-white"}`}
               >
                 <div className="flex gap-3">
-                  <span className={`grid size-10 shrink-0 place-items-center rounded-full text-[21px] font-extrabold ${on ? "bg-genda text-baingan" : "bg-pista-deep text-baingan"}`}>
-                    {s.step}
-                  </span>
-                  <span className="flex-1 pt-0.5 text-[23px] font-medium leading-normal">
+                  {s.step !== undefined && <StepMarigold n={s.step} active={on} />}
+                  <span className="flex-1 pt-0.5 text-[1.4375rem] font-medium leading-normal">
                     <StepText markup={s.markup} />
                   </span>
                   {on && <SpeakingBars />}
@@ -97,7 +106,7 @@ export function AnswerView({ state, onReplay, onSuggestion }: {
       )}
 
       {waiting && (
-        <div aria-live="polite" className="flex items-center gap-3 rounded-[20px] border-2 border-dashed border-pista-line px-4 py-4 text-[20px] text-baingan-soft">
+        <div aria-live="polite" className="flex items-center gap-3 rounded-[20px] border-2 border-dashed border-pista-line px-4 py-4 text-[1.25rem] text-baingan-soft">
           <span className="flex gap-1.5" aria-hidden>
             {[0, 1, 2].map((i) => <span key={i} className="block size-2.5 rounded-full bg-baingan-soft" style={{ animation: `dots 1.2s ${i * 0.2}s infinite` }} />)}
           </span>
@@ -106,7 +115,7 @@ export function AnswerView({ state, onReplay, onSuggestion }: {
       )}
 
       {error && (
-        <div role="alert" className="rounded-[20px] border-2 border-rani bg-white px-4 py-4 text-[21px] leading-snug">
+        <div role="alert" className="rounded-[20px] border-2 border-rani bg-white px-4 py-4 text-[1.3125rem] leading-snug">
           {error}
         </div>
       )}
@@ -117,8 +126,8 @@ export function AnswerView({ state, onReplay, onSuggestion }: {
           onClick={() => onReplay(warning.index)}
           className={`flex gap-3 rounded-[20px] border-2 border-genda px-4 py-3 ${active === warning.index ? "bg-genda-soft" : "bg-[#fff8e6]"}`}
         >
-          <span aria-hidden className="text-[26px] leading-none">⚠️</span>
-          <p className="text-[21px] leading-normal">
+          <span aria-hidden className="text-[1.625rem] leading-none">⚠️</span>
+          <p className="text-[1.3125rem] leading-normal">
             <span className="font-bold">ध्यान दें: </span>
             <StepText markup={warning.markup} />
           </p>
@@ -129,7 +138,7 @@ export function AnswerView({ state, onReplay, onSuggestion }: {
         <p
           data-seg={closing.index}
           onClick={() => onReplay(closing.index)}
-          className={`rounded-2xl text-[21px] leading-[1.55] text-baingan ${active === closing.index ? "bg-genda-soft px-3 py-2" : ""}`}
+          className={`rounded-2xl text-[1.3125rem] leading-[1.55] text-baingan ${active === closing.index ? "bg-genda-soft px-3 py-2" : ""}`}
         >
           <StepText markup={closing.markup} />
         </p>
@@ -137,10 +146,10 @@ export function AnswerView({ state, onReplay, onSuggestion }: {
 
       {answer?.accessories && answer.accessories.length > 0 && (
         <div>
-          <p className="mb-2 text-[18px] font-bold text-baingan-soft">अंदर क्या रखें</p>
+          <p className="mb-2 text-[1.125rem] font-bold text-baingan-soft">अंदर क्या रखें</p>
           <div className="flex flex-wrap gap-2">
             {answer.accessories.map((a) => (
-              <span key={a} className="rounded-full bg-white px-3.5 py-1.5 text-[19px] font-semibold shadow-[0_0_0_2px_var(--color-pista-line)]">
+              <span key={a} className="rounded-full bg-white px-3.5 py-1.5 text-[1.1875rem] font-semibold shadow-[0_0_0_2px_var(--color-pista-line)]">
                 {accessoryName(a)}
               </span>
             ))}
@@ -150,14 +159,14 @@ export function AnswerView({ state, onReplay, onSuggestion }: {
 
       {answer?.suggestions && answer.suggestions.length > 0 && (
         <div>
-          <p className="mb-2 text-[18px] font-bold text-baingan-soft">आगे पूछ सकती हैं</p>
+          <p className="mb-2 text-[1.125rem] font-bold text-baingan-soft">आगे पूछ सकती हैं</p>
           <div className="flex flex-col gap-2">
             {answer.suggestions.map((s) => (
               <button
                 key={s}
                 type="button"
                 onClick={() => onSuggestion(s)}
-                className="rounded-[18px] bg-white px-4 py-3 text-left text-[20px] font-semibold shadow-[0_0_0_2px_var(--color-pista-line)] active:bg-genda-soft"
+                className="rounded-[18px] bg-white px-4 py-3 text-left text-[1.25rem] font-semibold shadow-[0_0_0_2px_var(--color-pista-line)] active:bg-genda-soft"
               >
                 {s}
               </button>
@@ -167,7 +176,7 @@ export function AnswerView({ state, onReplay, onSuggestion }: {
       )}
 
       {answer?.pages && answer.pages.length > 0 && (
-        <p className="text-[16px] text-baingan-soft">LG मैनुअल के पेज {answer.pages.join(", ")} से</p>
+        <p className="text-[1rem] text-baingan-soft">LG मैनुअल के पेज {answer.pages.join(", ")} से</p>
       )}
     </div>
   );

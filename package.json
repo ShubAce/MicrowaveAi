@@ -10,7 +10,8 @@
     "kb": "python -X utf8 scripts/build_kb.py",
     "audio": "tsx --env-file=.env scripts/make_audio.mts",
     "icons": "tsx scripts/make_icons.mts",
-    "eval": "tsx --env-file=.env scripts/eval.mts"
+    "eval": "tsx --env-file=.env scripts/eval.mts",
+    "test": "tsx tests/scenes.mts && tsx tests/fallback.mts"
   },
   "dependencies": {
     "motion": "^14.6.0",

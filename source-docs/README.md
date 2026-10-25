@@ -11,7 +11,7 @@ Official LG material for the family's microwave (Amazon ASIN B0GWHFMFMM = LG MJE
 | `lg-official/MFL72046002_Owners_Manual_MJEN286UGWF.pdf` | Same manual as PDF, 300 pages, covers MJEN286UFWF/UHWF/UGWF/UBWF | Page numbers for citations, visual checks |
 | `lg-official/User_Guide_MJEN286UGWF.pdf` | "Simple Owner's Manual" leaflet from the box (MBM67544502) | Safety, cleaning, warranty, LG contacts, QR links |
 | `lg-official/LG_Convertible_Oven_Catalogue.pdf` | Marketing catalogue for LG's convertible range | Feature explanations (Air Fry tray, Scan to Cook) |
-| `lg-cookbooks/Healthy_Heart_Cook_Book_MAX62509101.pdf` | The 30 Healthy Heart recipes with photos, prep and cooking times — scanned images, no text layer | Optional extra: prep times, dish photos |
+| `lg-cookbooks/Healthy_Heart_Cook_Book_MAX62509101.pdf` | The 30 Healthy Heart recipes with photos, prep and cooking times — scanned images, no text layer | Cross-check only (it filled two gaps in the manual's tables); see Model check |
 | `lg-images/MJEN286UGWF-DZ-11.jpg` | Photo of the real control panel | UI reference |
 | `lg-images/MJEN286UGWF-DZ-12.jpg` | Menu-code label printed inside the door frame | Ground truth for menu-code ranges |
 | `lg-images/MJEN286UGWF-DZ-01/02/13.jpg` | Front, door open, rear | Reference |
@@ -35,6 +35,31 @@ Not used: `../MFL70580216 (01) MJEN286UFW OWNER MANUAL_14 DEC 2022 (1).pdf` — 
 - **Everyday jobs hidden in Cooking Aid (Charcoal/Indian Cuisine → 5):** 5-1 Keep Warm, 5-2 Defrost Veg, 5-3 Defrost Non Veg, 5-16 Steam Clean, and more.
 - **Display-font gotcha:** recipe codes are set in an LCD font (HTML: `<span class="lcd">`), so text shows letters for digits — `z`=2, `s`=5, `O`=0, `G`=9, `Q`=9, `b`=6 (e.g. `1-G` is 1-9, `z-b` is 2-6).
 - **Accessories (manual p.16):** glass tray, rotating ring, high rack, low rack, rotisserie bar + handle, multicook tawa, air fry tray. In **Microwave** mode only the glass tray is allowed; the air fry tray works only in Grill and Convection.
+
+## Model check (2026-10-25)
+
+Checked again from scratch that every recipe in the app belongs to the oven bought from Amazon:
+
+- **Amazon → model.** The family's link `amzn.in/d/0bFM7ugY` redirects to ASIN **B0GWHFMFMM**. Amazon's own page returns 503 to fetchers, so the ASIN was tied to the model through a price tracker. PriceBefore's MJEN286UGWF entry links to `amazon.in/LG-Convertible-Microwave-MJEN286UGWF-Rotisserie/dp/B0GWHFMFMM`, and its title matches the one the family pasted character for character. Look-alike listings have other ASINs: UFWF B0GTM2GWFG, UHWF B0HM3CFPGC, UJWF B0H6234PHQ, and the older UFW B0C8J7GMDY.
+- **Model → manual.** The copies here are byte-identical (same MD5) to what LG India serves today on the MJEN286UGWF support page:
+  - the PDF manual MFL72046002 Rev.01;
+  - the HTML manual zip;
+  - the in-box leaflet MBM67544502.
+
+  The manual's cover and specification page name MJEN286UGWF.
+- **Manual → app.** All 331 recipes in `kb/recipes.json` match the printed PDF in code, name, category, weight limit and utensil, and 1,403 of the 1,406 steps match word for word (the other 3 differ only in formatting). The counts per category agree in the app, on the door label and in the manual (331 in total; Air Fry 60, matching the listing's "60 Air Fry Recipe").
+- **Fixed in the build** (`scripts/build_kb.py`):
+  - LG's icon-font ℃ in Air Fry 1-55/1-56 had come out as "7";
+  - Roti 1-19 had lost its ingredient table, and LG's printed table swaps its green-chilli and gobhi amounts (now corrected, with a note);
+  - the "kit not included" note was missing from milk 4-1;
+  - three of LG's own table slips in Healthy Heart 20, 25 and 26 are now corrected, each with a note.
+- **Hand-written quick answers** were audited against the manual and corrected. The tandoori bowl is now the exact Paneer Tikka (1-9) recipe, because Charcoal menus differ: some start in a glass bowl, some use the rotisserie, some preheat first.
+- **Not part of the 331:** the "40 Scan to Cook" recipes work only through the LG ThinQ app (manual p.292). Also, the Amazon "in the box" text mentions no rotisserie bar, although the title and the manual (p.16) do, so check that it came in the box.
+- **LG's product page** wrongly says "301 Auto Cook Menu" in its FAQ. That figure belongs to the older MJEN286UFW; the title, features and manual all say 331.
+
+Extra cook books linked by QR from this model's leaflet (neither names a model):
+- **Healthy Heart** (MAX62509101, a 2019 design) has the same 30 dishes, in the same order, as Healthy Heart 1-30. Where its amounts differ, the app follows the manual. Its "cooking times" are approximate, not the program's time, so they are not used.
+- **Tastes of India** (MAX62489101) has 35 recipes with manual settings: power %, convection, grill and micro+grill. Two of them need 210/220 °C, but this oven's convection goes only up to 200 °C. They are not in the app.
 
 ## LG support (leaflet p.2)
 

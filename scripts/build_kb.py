@@ -30,7 +30,6 @@ PDF_MANUAL = ROOT / "source-docs/lg-official/MFL72046002_Owners_Manual_MJEN286UG
 PDF_LEAFLET = ROOT / "source-docs/lg-official/User_Guide_MJEN286UGWF.pdf"
 EXTRA_MD = ROOT / "kb/extra.md"
 NAMES_HI = ROOT / "kb/recipe_names_hi.json"
-EXTRAS = ROOT / "kb/recipe_extras.json"  # verified extra facts from LG's cook books, keyed "Category|code"
 OUT_MD = ROOT / "kb/manual.md"
 OUT_CORE = ROOT / "kb/core.md"
 OUT_CATALOG = ROOT / "kb/catalog.md"
@@ -81,6 +80,34 @@ LABEL_COUNTS = {
     "Charcoal": 35, "Indian Cuisine": 41, "Rice Delight": 25, "Chatpat Corner": 15, "Cooking Aid": 16,
     "Healthy Heart": 30, "Indian Roti Basket": 28, "Ghee": 4, "Air Fry": 60, "Low Calorie": 19,
     "Child's Favourite": 24, "Bakery": 28, "Dairy Delight": 4, "Pasteurized Milk": 2,
+}
+
+# LG's icon font: the HTML has a letter where the printed page shows a symbol.
+ICON_GLYPHS = {("icon_common", "7"): "℃", ("icon_common", "~"): "→", ("icon_vaccumcleaner", "~"): "+"}
+
+# Slips in LG's printed recipe tables, each checked against the PDF and LG's Healthy Heart cook book
+# (MAX62509101, linked from the leaflet in this model's box): (text to find, replacement) pairs and a note.
+ERRATA: dict[str, tuple[list[tuple[str, str]], str]] = {
+    "Healthy Heart|20": (
+        [("  - For the Sauce: 4 large pcs\n", "  - For the Sauce:\n"), ("  - **Other Ingredients**: 1 tbsp\n", "  - Other Ingredients:\n")],
+        "LG's printed table puts '4 large pcs' and '1 tbsp' on these two heading rows; LG's Healthy Heart cook book "
+        "prints 'For the Sauce' and 'Other Ingredients' as plain headings.",
+    ),
+    "Healthy Heart|25": (
+        [("salt and cup of water", "salt and 1/3 cup of water")],
+        "The manual leaves out the amount of water in step 2; LG's Healthy Heart cook book says 1/3 cup.",
+    ),
+    "Healthy Heart|26": ([], "The 'Weight Limit 0.3 kg' row is printed that way in LG's table; the menu itself is set for 1 pc."),
+    "Indian Roti Basket|1-19": (
+        [("  - Chopped green chilli (deseeded): 1 cup\n", "  - Chopped green chilli (deseeded): 3 nos.\n"),
+         ("  - Boiled and grated gobhi: 3 nos.\n", "  - Boiled and grated gobhi: 1 cup\n")],
+        "LG's printed table (p. 182) swaps these two amounts (1 cup green chilli, 3 nos. gobhi); LG's earlier manual "
+        "for this recipe and all the other stuffed paranthas give 3 green chillies, and the stuffing is 1 cup each.",
+    ),
+    "Pasteurized Milk|4-1": (
+        [],
+        "*1 The milk pasteurization kit is not provided with LG standard accessories; to get it, reach out to LG Customer Care.",
+    ),
 }
 
 
@@ -224,9 +251,10 @@ def ingredient_lines(grid: list[tuple[bool, list[str]]]) -> list[str] | None:
     if not grid or not grid[0][0]:
         return None
     head = grid[0][1]
-    list_cols = sum(1 for c in head if c == "List")
+    list_cols = sum(1 for c in head if c in ("List", "Ingredients"))
     if list_cols == 0:
         return None
+    list_cols = min(list_cols, len(head) - 1)  # a "List | List" header: the last column still holds the amounts
     lines: list[str] = []
     weights: list[str] | None = None
     group_seen = None
@@ -461,27 +489,17 @@ def attach_hindi_names(recipes: list[dict]) -> None:
         raise SystemExit(f"no Hindi name for {len(missing)} menus: {missing[:10]}")
 
 
-def attach_extras(recipes: list[dict]) -> int:
-    """Add verified facts from LG's cook books (preparation and cooking time) to the recipe write-ups."""
-    if not EXTRAS.exists():
-        return 0
-    extras = json.loads(EXTRAS.read_text(encoding="utf-8"))
-    added = 0
-    for r in recipes:
-        e = extras.get(f"{r['category']}|{r['code']}")
-        if not e:
-            continue
-        lines = [f"- **{label}** ({e.get('source', 'LG cook book')}): {e[key]}"
-                 for key, label in (("prepTime", "Preparation time"), ("cookingTime", "Cooking time")) if e.get(key)]
-        lines += [f"- {note}" for note in e.get("notes", [])]
-        if not lines:
-            continue
-        head, _, rest = r["md"].partition("\n")
-        select, _, body = rest.partition("\n")  # keep "#### code name" and "Select: ..." first
-        r["md"] = "\n".join([head, select, *lines, body]).rstrip()
-        r.update({k: e[k] for k in ("prepTime", "cookingTime") if e.get(k)})
-        added += 1
-    return added
+def apply_errata(recipes: list[dict]) -> int:
+    """Correct LG's printing slips in the recipe write-ups, and say so in a note."""
+    by_key = {f"{r['category']}|{r['code']}": r for r in recipes}
+    for key, (fixes, note) in ERRATA.items():
+        r = by_key[key]
+        for old, new in fixes:
+            if old not in r["md"]:
+                raise SystemExit(f"erratum for {key} no longer matches: {old!r}")
+            r["md"] = r["md"].replace(old, new)
+        r["md"] = r["md"].rstrip() + f"\n_Note: {note}_"
+    return len(ERRATA)
 
 
 def split_core(md: str, recipes: list[dict]) -> str:
@@ -538,8 +556,7 @@ def catalog(recipes: list[dict]) -> str:
             button, no = AUTO_COOK[current]
             group = f"group {no}: {current}" if no else f"{current} (no group number; codes 1-30)"
             out += ["", f"## {button} → {group}"]
-        cook = f" | cooks in {r['cookingTime']}" if r.get("cookingTime") else ""
-        out.append(f"- {r['code']} {r['name']} ({r['hi']}) | {r.get('weight') or '-'} | {r.get('utensil') or '-'}{cook}")
+        out.append(f"- {r['code']} {r['name']} ({r['hi']}) | {r.get('weight') or '-'} | {r.get('utensil') or '-'}")
     return "\n".join(out) + "\n"
 
 
@@ -570,6 +587,11 @@ def main() -> None:
         meta = {m.get("name"): m.get("content") for m in soup.find_all("meta") if m.get("name")}
         # Only topic pages carry metadata; section/chapter pages hold just their title.
         ctx["in_recipes"] = kind == "topic" and clean_ws(meta.get("Section_Title", "")) == "Recipe"
+        for icon in soup.select("span.icon"):
+            glyph = next((v for (cls, ch), v in ICON_GLYPHS.items() if cls in icon.get("class", []) and icon.get_text() == ch), None)
+            if glyph is None:
+                raise SystemExit(f"unknown icon glyph in {doc_id}: {icon}")
+            icon.replace_with(glyph)
         main_div = soup.select_one("div.topic-contents")
         if main_div is None:
             title = meta.get("Topic_Title") or meta.get("Section_Title") or meta.get("Chapter_Title")
@@ -598,7 +620,7 @@ def main() -> None:
 
     attach_hindi_names(recipes)
     core = split_core(md, recipes)
-    extras = attach_extras(recipes)  # after the split: it edits each recipe's own write-up
+    errata = apply_errata(recipes)  # after the split: it edits each recipe's own write-up
     cat = catalog(recipes)
 
     OUT_MD.parent.mkdir(parents=True, exist_ok=True)
@@ -611,7 +633,7 @@ def main() -> None:
     OUT_BOOK.write_text(json.dumps(recipe_book(recipes), ensure_ascii=False), encoding="utf-8")
     for path, text in ((OUT_MD, md), (OUT_CORE, core), (OUT_CATALOG, cat)):
         print(f"wrote {path.relative_to(ROOT)}: {len(text):,} chars")
-    print(f"wrote {OUT_RECIPES.relative_to(ROOT)}: {len(recipes)} recipes (matches door label), {extras} with cook-book extras")
+    print(f"wrote {OUT_RECIPES.relative_to(ROOT)}: {len(recipes)} recipes (matches door label), {errata} with errata notes")
     if missing_pages:
         print(f"warning: no page number for {len(missing_pages)} recipes: {missing_pages[:8]}", file=sys.stderr)
 
