@@ -5,7 +5,7 @@ import { Allow, parse } from "partial-json";
 import { isButtonId } from "../buttons";
 import { spokenPiece } from "../markup";
 import type { Answer, AskEvent, AskSettings, HistoryTurn, Segment, SegmentRole } from "../protocol";
-import { streamWithFallback, type GeminiBody } from "./gemini";
+import { streamWithFallback, type GeminiBody, type StreamResult } from "./gemini";
 import { ANSWER_SCHEMA, FIELD_ORDER, SYSTEM_INSTRUCTION } from "./prompt";
 import { findRecipes } from "./retrieve";
 import { say as speakPiece } from "./voice";
@@ -70,6 +70,9 @@ export async function answerQuestion({ question, history, settings, emit, signal
   const sent = new Set<SegmentRole>();
   const speaking: Promise<void>[] = [];
   const voices = new Set<string>();
+  // Stops the speech still being made when the answer fails: nobody would receive it.
+  const speech = new AbortController();
+  const speechSignal = signal ? AbortSignal.any([signal, speech.signal]) : speech.signal;
 
   let kind: Answer["kind"] | undefined;
   const say = (role: SegmentRole, markup: string, step?: number, isLast = false) => {
@@ -78,12 +81,13 @@ export async function answerQuestion({ question, history, settings, emit, signal
     emit({ type: "segment", segment });
     if (!withAudio) return;
     speaking.push(
-      speakPiece(spokenPiece(role, markup, { kind, step, isLast }), settings.voice, settings.pace, signal)
+      speakPiece(spokenPiece(role, markup, { kind, step, isLast }), settings.voice, settings.pace, speechSignal)
         .then(({ b64, mime, by }) => {
           voices.add(by);
           emit({ type: "audio", index: segment.index, mime, b64 });
         })
         .catch((e: Error) => {
+          if (speech.signal.aborted) return;
           console.error(`text-to-speech failed for piece ${segment.index}: ${e.message}`);
           emit({ type: "audio_error", index: segment.index });
         }),
@@ -130,19 +134,28 @@ export async function answerQuestion({ question, history, settings, emit, signal
   };
 
   let firstWords = 0;
-  const result = await streamWithFallback(body, (full) => {
-    firstWords ||= Date.now() - started;
-    progress(full, false);
-  }, { signal });
-  progress(result.text, true);
-
-  let raw: Record<string, unknown>;
+  let result: StreamResult;
+  let answer: Answer;
   try {
-    raw = JSON.parse(result.text);
-  } catch {
-    raw = parse(result.text, Allow.ALL) as Record<string, unknown>;
+    result = await streamWithFallback(body, (full) => {
+      firstWords ||= Date.now() - started;
+      progress(full, false);
+    }, { signal });
+    progress(result.text, true);
+
+    let raw: Record<string, unknown>;
+    try {
+      raw = JSON.parse(result.text);
+    } catch {
+      raw = parse(result.text, Allow.ALL) as Record<string, unknown>;
+    }
+    answer = normalise(raw);
+  } catch (e) {
+    speech.abort();
+    throw e;
   }
-  const answer = normalise(raw);
+  // Every piece's speech (or its failure) goes out before `done`: the phone counts them to know
+  // whether anything could be said at all.
   await Promise.all(speaking);
   const ms = Date.now() - started;
   // One line per question in the server log (Vercel → Logs), to spot slow models or missed recipes.

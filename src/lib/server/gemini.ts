@@ -9,7 +9,7 @@
 // - when a request has said nothing for `hedgeMs`, a backup request starts on another model, and
 //   whichever answers first is used.
 
-import { KeyPool, keyLabel, keysFrom, untilPacificMidnight } from "./keys";
+import { KeyPool, keysFrom, untilPacificMidnight } from "./keys";
 
 const BASE = "https://generativelanguage.googleapis.com/v1beta/models";
 
@@ -42,8 +42,9 @@ export class GeminiError extends Error {
 
 /** What a failed request says: the key ran out for this model, the key is bad, or the model failed. */
 function failed(key: string, model: string, status: number, detail: string): GeminiError {
-  const message = detail.match(/"message":\s*"([^"]{0,160})/)?.[1] ?? detail.slice(0, 160);
   const keys = geminiKeys();
+  // Google can quote the key ("Consumer 'api_key:…' has been suspended"): never pass one on to a log.
+  const message = keys.hide(detail.match(/"message":\s*"([^"]{0,160})/)?.[1] ?? detail.slice(0, 160)).replace(/AIza[\w-]{20,}/g, "AIza…");
   if (status === 429) {
     // Per-minute limits say how long to wait; a used-up daily quota comes back at midnight in California.
     const wait = Number(detail.match(/"retryDelay":\s*"(\d+)s"/)?.[1] ?? 60) * 1000;
@@ -127,7 +128,7 @@ function race<T>(
           inFlight.delete(model);
           if (settled || (winner && winner !== ctrl)) return; // stopped after losing the race
           if (winner === ctrl) return finish(e); // failed half way; nothing to fall back to cleanly
-          errors.push(`${model} ${keyLabel(keys, key)}: ${e.message}`);
+          errors.push(`${model} ${keys.label(key)}: ${e.message}`);
           // Out of quota or a bad key: the same model with the next key. Anything else: the next model.
           if (!(e instanceof GeminiError && (e.failure === "quota" || e.failure === "key"))) failedModels.add(model);
           launch(); // the next attempt, or finishes with the errors when none are left
@@ -194,7 +195,8 @@ async function streamOnce(model: string, key: string, body: GeminiBody, signal: 
   for (;;) {
     const { done, value } = await reader.read();
     if (done) break;
-    buffer += decoder.decode(value, { stream: true }).replace(/\r\n/g, "\n");
+    // Joined before converting, so a "\r\n" split across two reads still becomes "\n".
+    buffer = (buffer + decoder.decode(value, { stream: true })).replace(/\r\n/g, "\n");
     let cut: number;
     while ((cut = buffer.indexOf("\n\n")) >= 0) {
       const event = buffer.slice(0, cut);

@@ -3,7 +3,7 @@
 // run out, it is rate limited, or Sarvam fails for it.
 
 import { DEFAULT_PACE, DEFAULT_VOICE, isVoiceId } from "../voices";
-import { KeyPool, keyLabel, keysFrom } from "./keys";
+import { KeyPool, keysFrom } from "./keys";
 
 const BASE = "https://api.sarvam.ai";
 
@@ -29,12 +29,15 @@ export class SarvamError extends Error {
 
 /**
  * Runs `call` with each key in turn until one works. Sarvam's answers decide how long a key rests:
- * credits used up (429 insufficient_quota_error) six hours, a key it doesn't accept (403) an hour,
- * a rate limit (429/503) half a minute. A problem with the request itself (400/413/422) is not the
- * key's fault, so it is not retried with the others.
+ * credits used up (429 insufficient_quota_error) six hours and a key it doesn't accept (403) an hour,
+ * for both services, since credits and keys are shared; a rate limit (429/503) half a minute, for the
+ * service that said so (`what`). No answer in time, or no connection, is Sarvam's trouble rather than a
+ * key's: that service rests two minutes on every key, so the next requests go straight to Gemini. A
+ * problem with the request itself (400/413/422) is not the key's fault, so it is not retried with the
+ * others.
  */
 async function withKey<T>(
-  what: string,
+  what: "STT" | "TTS",
   signal: AbortSignal | undefined,
   call: (key: string) => Promise<Response>,
   read: (json: Record<string, unknown>) => T | null,
@@ -43,28 +46,29 @@ async function withKey<T>(
   if (!keys.size) throw new SarvamError(`${what}: no Sarvam API key set`, 401);
   let last: Error | null = null;
   // Keys that are resting are skipped: when none is left, Gemini takes over straight away.
-  for (const key of keys.order("*", { resting: false })) {
-    if (!keys.ready(key)) continue; // set aside meanwhile, by a request running alongside
+  for (const key of keys.order(what, { resting: false })) {
+    if (!keys.ready(key, what)) continue; // set aside meanwhile, by a request running alongside
     let res: Response;
     try {
       res = await call(key);
     } catch (e) {
-      if (signal?.aborted) throw e; // the phone gave up; a timeout just moves on to the next key
-      last = new SarvamError(`${what} ${keyLabel(keys, key)}: ${(e as Error).message}`, 504);
-      continue;
+      if (signal?.aborted) throw e; // the phone gave up, or the question ran out of time
+      const why = (e as Error).name === "TimeoutError" ? "no answer in time" : (e as Error).message;
+      for (const k of keys.keys) keys.rest(k, 2 * 60_000, what, why);
+      throw new SarvamError(`${what} ${keys.label(key)}: ${why}`, 504);
     }
     const json = (await res.json().catch(() => ({}))) as Record<string, unknown>;
     const value = res.ok ? read(json) : null;
     if (value !== null) return value;
     const code = String((json.error as { code?: string } | undefined)?.code ?? "");
-    const error = new SarvamError(`${what} ${keyLabel(keys, key)}: HTTP ${res.status} ${code || JSON.stringify(json).slice(0, 200)}`, res.status);
+    const error = new SarvamError(`${what} ${keys.label(key)}: HTTP ${res.status} ${code || keys.hide(JSON.stringify(json).slice(0, 200))}`, res.status);
     if ([400, 413, 422].includes(res.status)) throw error;
     if (code === "insufficient_quota_error") keys.rest(key, 6 * 3_600_000, "*", "out of credits");
     else if (res.status === 401 || res.status === 403) keys.rest(key, 3_600_000, "*", `HTTP ${res.status} ${code}`);
-    else if (res.status === 429 || res.status === 503) keys.rest(key, 30_000, "*", `HTTP ${res.status} ${code}`);
+    else if (res.status === 429 || res.status === 503) keys.rest(key, 30_000, what, `HTTP ${res.status} ${code}`);
     last = error;
   }
-  throw last ?? new SarvamError(`${what}: every Sarvam key is resting (out of credits or rate limited)`, 429);
+  throw last ?? new SarvamError(`${what}: every Sarvam key is resting (out of credits, rate limited or not answering)`, 429);
 }
 
 /** Aborts when the caller gives up or after `ms`. */
@@ -86,7 +90,7 @@ export async function transcribe(audio: Blob, filename: string, signal?: AbortSi
     form.append("mode", "transcribe");
     form.append("language_code", "hi-IN");
     form.append("keyterms", JSON.stringify(KEYTERMS));
-    return fetch(`${BASE}/speech-to-text`, { method: "POST", headers: { "api-subscription-key": key }, body: form, signal: deadline(signal, 15000) });
+    return fetch(`${BASE}/speech-to-text`, { method: "POST", headers: { "api-subscription-key": key }, body: form, signal: deadline(signal, 10000) });
   }, (json) => (typeof json.transcript === "string" ? json.transcript.trim() : null));
 }
 
@@ -113,6 +117,6 @@ export async function speak(text: string, voice: string, pace: number, signal?: 
     method: "POST",
     headers: { "api-subscription-key": key, "Content-Type": "application/json" },
     body,
-    signal: deadline(signal, 15000),
+    signal: deadline(signal, 12000),
   }), (json) => (Array.isArray(json.audios) && json.audios.length ? json.audios.join("") : null));
 }

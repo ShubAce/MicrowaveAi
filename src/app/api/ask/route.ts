@@ -34,6 +34,9 @@ function parseHistory(raw: FormDataEntryValue | null): HistoryTurn[] {
 }
 
 export async function POST(req: Request) {
+  // Vercel stops this function at maxDuration. Ten seconds before that, whatever is still being worked
+  // on is given up (speech still missing becomes audio_error), so `done` always reaches the phone.
+  const signal = AbortSignal.any([req.signal, AbortSignal.timeout((maxDuration - 10) * 1000)]);
   let form: FormData;
   try {
     form = await req.formData();
@@ -64,7 +67,7 @@ export async function POST(req: Request) {
           const filename = audio instanceof File && audio.name ? audio.name : "question.webm";
           const t0 = Date.now();
           try {
-            const heard = await hear(audio, filename, req.signal);
+            const heard = await hear(audio, filename, signal);
             question = heard.text;
             console.log(`heard ${JSON.stringify({ by: heard.by, ms: Date.now() - t0, bytes: audio.size, type: audio.type })}`);
           } catch (e) {
@@ -78,7 +81,7 @@ export async function POST(req: Request) {
           }
         }
         emit({ type: "transcript", text: question });
-        await answerQuestion({ question, history, settings, emit, signal: req.signal });
+        await answerQuestion({ question, history, settings, emit, signal });
       } catch (e) {
         console.error("answer failed:", (e as Error).message);
         emit({ type: "error", code: "busy", message: "answer failed" });

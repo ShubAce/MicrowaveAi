@@ -10,7 +10,7 @@ import { answerToHistory } from "@/lib/history";
 import type { HistoryTurn } from "@/lib/protocol";
 import { segmentsOf, speechFor, tileAudioUrl } from "@/lib/segments";
 import { TILES, type Tile } from "@/lib/tiles";
-import { DEFAULT_PACE } from "@/lib/voices";
+import { DEFAULT_PACE, DEFAULT_VOICE } from "@/lib/voices";
 import { AnswerView, EMPTY_ANSWER, type AnswerState } from "./AnswerView";
 import { CardMarigolds, HeaderTrim, HeadingSprig, Rangoli, Toran } from "./Floral";
 import { MasalaDabba } from "./MasalaDabba";
@@ -28,6 +28,8 @@ const PROBLEM_TEXT: Record<Problem, string> = {
   "no-voice": CLIPS["no-voice"],
   locked: "यह ऐप परिवार के लिए है। अपने परिवार से सही लिंक माँगिए।",
 };
+/** Some pieces of an answer could not be spoken (no voice left for them). */
+const SOME_SILENT = "कुछ हिस्सों की आवाज़ नहीं आ पाई। वे स्क्रीन पर लिखे हैं, पढ़ लीजिए।";
 
 const MOODS: Record<Phase, Mood> = {
   idle: "idle",
@@ -73,6 +75,8 @@ export function SakhiApp() {
   const history = useRef<HistoryTurn[]>([]);
   const request = useRef<AbortController | null>(null);
   const answerDone = useRef(true);
+  /** The notice last given for the answer on screen: replayed when none of the answer has sound. */
+  const lastProblem = useRef<Problem | null>(null);
   const wake = useRef<WakeLockSentinel | null>(null);
   const wakeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
@@ -140,6 +144,7 @@ export function SakhiApp() {
 
   const problem = useCallback((kind: Problem) => {
     answerDone.current = true;
+    lastProblem.current = kind;
     setView((v) => ({ ...v, error: PROBLEM_TEXT[kind], active: null }));
     setPhase("error");
     const p = player.current;
@@ -158,6 +163,7 @@ export function SakhiApp() {
     const p = player.current!;
     const audio = p.start();
     answerDone.current = false;
+    lastProblem.current = null;
     setView({ ...EMPTY_ANSWER, question: input.text ?? null });
     setScreen("answer");
     setPhase("thinking");
@@ -166,6 +172,7 @@ export function SakhiApp() {
 
     let pieces = 0;
     const voiced = new Set<number>(); // pieces whose speech (or speech error) has arrived
+    let spoken = 0; // pieces with speech she can hear
     let silent = 0; // pieces no voice could speak (Sarvam and Gemini both out)
     let question = input.text ?? "";
     /** The answer was cut off after some of it arrived: keep what came, and say so. */
@@ -198,6 +205,7 @@ export function SakhiApp() {
               break;
             case "audio":
               voiced.add(e.index);
+              spoken++;
               audio.addBase64(e.index, e.b64);
               break;
             case "audio_error":
@@ -212,10 +220,11 @@ export function SakhiApp() {
               audio.setCount(pieces);
               // All speech has arrived by now. With none at all, say so in a ready-made clip.
               if (pieces && silent === pieces) problem("no-voice");
-              else if (silent) setView((v) => ({ ...v, error: "कुछ हिस्सों की आवाज़ नहीं आ पाई। वे ऊपर लिखे हैं, पढ़ लीजिए।" }));
+              else if (silent) setView((v) => ({ ...v, error: SOME_SILENT }));
               break;
             case "error":
-              if (voiced.size) keepPartial();
+              // Cut off: keep what she has heard; with nothing heard, say so in a ready-made clip.
+              if (spoken) keepPartial();
               else problem(e.code === "no_speech" ? "no-speech" : "busy");
               break;
           }
@@ -223,12 +232,12 @@ export function SakhiApp() {
       });
       // The stream ended without saying it was done: finish with what arrived.
       if (!ctrl.signal.aborted && !answerDone.current) {
-        if (!pieces) return problem("busy");
+        if (!spoken) return problem("busy");
         keepPartial();
       }
     } catch (err) {
       if (ctrl.signal.aborted || answerDone.current) return;
-      if (voiced.size && !(err instanceof LockedError)) return keepPartial();
+      if (spoken && !(err instanceof LockedError)) return keepPartial();
       problem(err instanceof LockedError ? "locked" : navigator.onLine ? "busy" : "network");
     }
   }, [settings, keepAwake, problem, unlockAudio, stopListening]);
@@ -295,26 +304,36 @@ export function SakhiApp() {
     keepAwake();
     const segments = segmentsOf(tile.answer);
     answerDone.current = true;
+    lastProblem.current = null;
     setView({ ...EMPTY_ANSWER, question: tile.question, title: tile.answer.title, segments, answer: tile.answer });
     setScreen("answer");
     setPhase("thinking");
     history.current = keepTurns([...history.current, { role: "user", text: tile.question }, answerToHistory(tile.answer)]);
     audio.setCount(segments.length);
     let failures = 0;
+    let settled = 0;
+    const settle = () => {
+      if (++settled < segments.length || ctrl.signal.aborted) return;
+      if (failures === segments.length) problem(navigator.onLine ? "no-voice" : "network");
+      else if (failures) setView((v) => ({ ...v, error: SOME_SILENT }));
+    };
     for (const s of segments) {
       audio.setRole(s.index, s.role);
-      // Ready-made audio exists for the default voice at the normal speed; anything else is spoken on demand.
+      // Ready-made audio exists for the default voice at the normal speed. Anything else is spoken on
+      // demand (by Sarvam), and when that fails the ready-made audio still plays, in the default voice.
+      const recording = () => fetch(tileAudioUrl(DEFAULT_VOICE, tile.id, s.index), { signal: ctrl.signal })
+        .then((r) => (r.ok && r.headers.get("content-type")?.startsWith("audio") ? r.arrayBuffer() : Promise.reject(new Error(`HTTP ${r.status}`))));
       const speak = () => speakText(speechFor(tile.answer, s), settings, ctrl.signal);
-      const ready = settings.pace === DEFAULT_PACE
-        ? fetch(tileAudioUrl(settings.voice, tile.id, s.index), { signal: ctrl.signal })
-          .then((r) => (r.ok && r.headers.get("content-type")?.startsWith("audio") ? r.arrayBuffer() : speak()))
-        : speak();
+      const ready = settings.pace === DEFAULT_PACE && settings.voice === DEFAULT_VOICE
+        ? recording().catch(speak)
+        : speak().catch(recording);
       ready
         .then((data) => audio.add(s.index, data))
         .catch(() => {
+          failures++;
           audio.skip(s.index);
-          if (++failures === segments.length && !ctrl.signal.aborted) problem(navigator.onLine ? "no-voice" : "network");
-        });
+        })
+        .finally(settle);
     }
   }, [settings, keepAwake, problem, unlockAudio, stopListening]);
 
@@ -328,10 +347,20 @@ export function SakhiApp() {
     setScreen("home");
   };
 
+  /** None of the answer on screen has sound: say the notice that was given for it again. */
+  const repeatProblem = () => {
+    const p = player.current;
+    const kind = lastProblem.current;
+    if (!p || !kind || kind === "locked" || view.segments.some((s) => p.has(s.index))) return false;
+    p.unlock();
+    p.playClip(clipUrl(settings.voice, kind as ClipName), true);
+    return true;
+  };
+
   const replay = (index: number) => {
     if (stopListening()) setPhase("done");
     const p = player.current;
-    if (!p?.has(index)) return;
+    if (!p?.has(index)) return void repeatProblem();
     p.unlock();
     p.replay(index);
   };
@@ -339,7 +368,7 @@ export function SakhiApp() {
   const replayAll = () => {
     if (stopListening()) setPhase("done");
     const p = player.current;
-    if (!p) return;
+    if (!p || repeatProblem()) return;
     p.unlock();
     p.replayAll();
   };
@@ -366,7 +395,9 @@ export function SakhiApp() {
       setView((v) => ({ ...v, active: null }));
       setPhase("done");
     }
-    p.playClip(speakText("नमस्ते! मैं सखी हूँ। बताइए, आज क्या बनाना है?", { voice, pace: settings.pace }), true);
+    // When Sarvam can't speak, the voice's own ready-made line still lets her hear it.
+    const fallback = () => fetch(clipUrl(voice, "filler-3")).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(`HTTP ${r.status}`))));
+    p.playClip(speakText("नमस्ते! मैं सखी हूँ। बताइए, आज क्या बनाना है?", { voice, pace: settings.pace }).catch(fallback), true);
   };
 
   const micLevelNow = useCallback(() => micLevel.current, []);

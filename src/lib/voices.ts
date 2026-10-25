@@ -1,5 +1,6 @@
-// Sarvam Bulbul v4 Flash voices offered in settings. Sarvam renames voices from time to time;
-// an unknown id makes text-to-speech fail, so check this list against the live one when it does.
+// Sarvam Bulbul v4 Flash voices offered in settings. Sarvam renames voices from time to time and
+// then rejects the old id (HTTP 400), so Gemini's voice speaks the answers instead: when that happens,
+// check this list against the live one.
 
 export const VOICES = [
   { id: "sarika_hi_conversation", name: "सारिका", note: "बातचीत जैसी" },
